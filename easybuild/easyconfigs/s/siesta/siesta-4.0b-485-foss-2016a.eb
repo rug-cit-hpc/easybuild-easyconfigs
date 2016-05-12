@@ -8,7 +8,7 @@ description = """SIESTA is both a method and its computer program implementation
  structure calculations and ab initio molecular dynamics simulations of molecules and solids."""
 
 toolchain = {'name': 'foss', 'version': '2016a'}
-toolchainopts = {'usempi': True, 'optarch': True, 'pic': True}
+toolchainopts = {'usempi': True, 'optarch': True}
 
 sources = [SOURCELOWER_TGZ]
 source_urls = ['https://dl.dropbox.com/u/20267285/SIESTA-DOWNLOADS/']
