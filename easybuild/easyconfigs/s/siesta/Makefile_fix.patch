@@ -1,0 +1,11 @@
+--- siesta-4.0b-485/Src/Makefile	2015-12-27 23:05:17.000000000 +0100
++++ siesta-4.0b-485.new/Src/Makefile	2016-05-12 11:19:02.000000000 +0200
+@@ -247,7 +247,7 @@
+ # Define CC (and maybe CFLAGS) in arch.make for full control
+ #
+ sockets.o:  sockets.c   # Will be picked-up in the VPATH
+-	$(CC) $(CFLAGS)-c $<
++	$(CC) $(CFLAGS) -c $<
+ #
+ ALL_OBJS=$(OBJS) $(SYSOBJ) $(MAIN_OBJ)
+ #

@@ -1,0 +1,45 @@
+##
+# This file is an EasyBuild reciPY as per https://github.com/hpcugent/easybuild
+#
+# Copyright:: Copyright 2012-2014 Uni.Lu/LCSB, NTUA
+# Authors::   Cedric Laczny <cedric.laczny@uni.lu>, Fotis Georgatos <fotis@cern.ch>
+# License::   MIT/GPL
+# $Id$
+#
+# This work implements a part of the HPCBIOS project and is a component of the policy:
+# http://hpcbios.readthedocs.org/en/latest/HPCBIOS_2012-94.html
+##
+
+easyblock = 'MakeCp'
+
+name = 'siesta'
+version = '3.2-pl-5'
+
+homepage = 'http://departments.icmab.es/leem/siesta/'
+description = """SIESTA is both a method and its computer program implementation,
+to perform efficient electronic structure calculations and ab initio molecular 
+dynamics simulations of molecules and solids."""
+
+toolchain = {'name': 'goolfc', 'version': '2.7.11'}
+toolchainopts = {'optarch': True, 'pic': True}
+
+source_urls = ['http://departments.icmab.es/leem/siesta/CodeAccess/Code/']
+sources = [SOURCELOWER_TGZ]
+
+patches = [('arch.make', 'Obj')]
+
+dependencies = [
+    ('netCDF', '4.3.3.1'),
+]
+
+start_dir = "Obj"
+prebuildopts = "sh ../Src/obj_setup.sh && "
+
+files_to_copy = [([name], "bin")]
+
+sanity_check_paths = {
+    'files': ['bin/%(name)s'],
+    'dirs': []
+}
+
+moduleclass = 'chem'

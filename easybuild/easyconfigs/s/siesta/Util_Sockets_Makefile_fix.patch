@@ -1,0 +1,12 @@
+--- siesta-4.0b-485/Util/Sockets/Makefile	2015-12-27 23:05:17.000000000 +0100
++++ siesta-4.0b-485.new/Util/Sockets/Makefile	2016-05-12 11:57:53.000000000 +0200
+@@ -68,6 +68,9 @@
+ f2fmaster.o f2fslave.o: fsockets.o sockets.o
+ fsockets.o: sockets.o
+ #
++sockets.o:
++	ln -s ../../$(OBJDIR)/sockets.o
++#
+ clean:
+ 	@echo "==> Cleaning object, library, and executable files"
+ 	rm -f f2fmaster f2fslave
