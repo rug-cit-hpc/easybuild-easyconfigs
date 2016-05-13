@@ -35,7 +35,7 @@ buildopts += 'cd ../Util && sh ./build_all.sh'
 parallel = 1
 
 files_to_copy = [(['Obj/siesta', 'Obj2/transiesta', 'Util/Bands/eigfat2plot', 'Util/Bands/new.gnubands',
-                   'Util/CMLComp/ccViz', 'Util/COOP/mprop', 'Util/COOP/dm_creator', # 'Util/Bands/gnubands'
+                   'Util/CMLComp/ccViz', 'Util/COOP/mprop', 'Util/COOP/dm_creator',
                    'Util/COOP/fat', 'Util/Contrib/APostnikov/eig2bxsf', 'Util/Contrib/APostnikov/xv2xsf',
                    'Util/Contrib/APostnikov/md2axsf', 'Util/Contrib/APostnikov/rho2xsf',
                    'Util/Contrib/APostnikov/vib2xsf', 'Util/Contrib/APostnikov/fmpdos',
@@ -43,26 +43,31 @@ files_to_copy = [(['Obj/siesta', 'Obj2/transiesta', 'Util/Bands/eigfat2plot', 'U
                    'Util/DensityMatrix/dm2cdf', 'Util/DensityMatrix/cdf2dm', 'Util/Eig2DOS/Eig2DOS',
                    'Util/Gen-basis/ionplot.sh', 'Util/Gen-basis/gen-basis', 'Util/Gen-basis/ioncat',
                    'Util/Grid/grid2cdf', 'Util/Grid/cdf2xsf', 'Util/Grid/cdf2grid', 'Util/Grid/grid2val',
+                   'Util/Grid/grid_rotate', 'Util/Grid/cdf_laplacian', 'Util/Grid/g2c_ng',
                    'Util/Grid/grid2cube', 'Util/HSX/hsx2hs', 'Util/HSX/hs2hsx', 'Util/Helpers/get_chem_labels',
+                   'Util/JobList/Src/countJobs', 'Util/JobList/Src/getResults', 'Util/JobList/Src/horizontal',
+                   'Util/JobList/Src/runJobs', 'Util/MPI_test/blacs_prb', 'Util/MPI_test/pblas_prb',
                    'Util/MPI_test/pi3', 'Util/Macroave/Src/macroave', 'Util/ON/lwf2cdf', 'Util/Optimizer/swarm',
                    'Util/Optimizer/simplex', 'Util/Projections/orbmol_proj', 'Util/STM/simple-stm/plstm',
                    'Util/SiestaSubroutine/FmixMD/Src/simple', 'Util/SiestaSubroutine/FmixMD/Src/driver',
-                   'Util/SiestaSubroutine/FmixMD/Src/para', 'Util/TBTrans/tbtrans', 'Util/VCA/mixps',
-                   'Util/VCA/fractional', 'Util/Vibra/Src/fcbuild', 'Util/Vibra/Src/vibra', 'Util/WFS/readwf',
-                   'Util/WFS/readwfx', 'Util/WFS/info_wfsx', 'Util/WFS/wfs2wfsx', 'Util/WFS/wfsx2wfs',
-                   'Util/WFS/wfsnc2wfsx', 'Util/pdosxml/pdosxml', 'Util/pseudo-xml/xml2psf',
-                   'Util/test-xml/test-xml'], 'bin')]
+                   'Util/SiestaSubroutine/FmixMD/Src/para', 'Util/Sockets/f2fmaster', 'Util/Sockets/f2fslave',
+                   'Util/TBTrans_rep/tbtrans', 'Util/VCA/mixps', 'Util/VCA/fractional', 'Util/Vibra/Src/fcbuild', 
+                   'Util/Vibra/Src/vibra', 'Util/WFS/readwf', 'Util/WFS/readwfx', 'Util/WFS/info_wfsx', 
+                   'Util/WFS/wfs2wfsx', 'Util/WFS/wfsx2wfs', 'Util/WFS/wfsnc2wfsx', 'Util/pdosxml/pdosxml', 
+                   'Util/pseudo-xml/xml2psf', 'Util/test-xml/test-xml'], 'bin')]
 
 sanity_check_paths = {
-    'files': ['bin/siesta', 'bin/transiesta', 'bin/tbtrans', 'bin/eigfat2plot', 'bin/new.gnubands', # 'bin/gnubands',
+    'files': ['bin/siesta', 'bin/transiesta', 'bin/tbtrans', 'bin/eigfat2plot', 'bin/new.gnubands',
               'bin/ccViz', 'bin/mprop', 'bin/dm_creator', 'bin/fat', 'bin/eig2bxsf', 'bin/xv2xsf', 'bin/md2axsf',
               'bin/rho2xsf', 'bin/vib2xsf', 'bin/fmpdos', 'bin/2dplot.py', 'bin/surf.py', 'bin/denchar', 'bin/dm2cdf',
               'bin/cdf2dm', 'bin/Eig2DOS', 'bin/ionplot.sh', 'bin/gen-basis', 'bin/ioncat', 'bin/grid2cdf',
-              'bin/cdf2xsf', 'bin/cdf2grid', 'bin/grid2val', 'bin/grid2cube', 'bin/hsx2hs', 'bin/hs2hsx',
-              'bin/get_chem_labels', 'bin/pi3', 'bin/macroave', 'bin/lwf2cdf', 'bin/swarm', 'bin/simplex',
-              'bin/orbmol_proj', 'bin/plstm', 'bin/simple', 'bin/driver', 'bin/para', 'bin/tbtrans', 'bin/mixps',
-              'bin/fractional', 'bin/fcbuild', 'bin/vibra', 'bin/readwf', 'bin/readwfx', 'bin/info_wfsx',
-              'bin/wfs2wfsx', 'bin/wfsx2wfs', 'bin/wfsnc2wfsx', 'bin/pdosxml', 'bin/xml2psf', 'bin/test-xml'],
+              'bin/cdf2xsf', 'bin/cdf2grid', 'bin/grid2val', 'bin/grid_rotate', 'bin/cdf_laplacian', 'bin/g2c_ng', 
+              'bin/grid2cube', 'bin/hsx2hs', 'bin/hs2hsx', 'bin/get_chem_labels', 'bin/countJobs', 'bin/getResults',
+              'bin/horizontal', 'bin/runJobs', 'bin/blacs_prb', 'bin/pblas_prb', 'bin/pi3', 'bin/macroave',
+              'bin/lwf2cdf', 'bin/swarm', 'bin/simplex', 'bin/orbmol_proj', 'bin/plstm', 'bin/simple', 'bin/driver',
+              'bin/para', 'bin/f2fmaster', 'bin/f2fslave', 'bin/tbtrans', 'bin/mixps', 'bin/fractional', 'bin/fcbuild',
+              'bin/vibra', 'bin/readwf', 'bin/readwfx', 'bin/info_wfsx', 'bin/wfs2wfsx', 'bin/wfsx2wfs',
+              'bin/wfsnc2wfsx', 'bin/pdosxml', 'bin/xml2psf', 'bin/test-xml'],
     'dirs': []
 }
 
