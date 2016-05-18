@@ -1,7 +1,7 @@
-easyblock = 'PythonPackage'
+easyblock = 'ConfigureMake'
 
-name = 'FIAT'
-version = '1.6.0'
+name = 'RepeatMasker'
+version = 'open-4-0-5'
 
 homepage = 'https://bitbucket.org/fenics-project/fiat'
 description = """The FInite element Automatic Tabulator FIAT supports generation of arbitrary order
@@ -10,19 +10,18 @@ description = """The FInite element Automatic Tabulator FIAT supports generation
 
 toolchain = {'name': 'foss', 'version': '2016a'}
 
-source_urls = ['https://bitbucket.org/fenics-project/fiat/downloads']
-sources = [SOURCELOWER_TAR_GZ]
+source_urls = ['https://www.repeatmasker.org']
+sources = [%(name)-%(version)s.tar.gz]
 
-dependencies = [
+'''dependencies = [
     ('Python', '2.7.11'),
     ('sympy', '1.0', '-Python-%(pyver)s'),
-]
+]'''
 
-options = {'modulename': name}
 
 sanity_check_paths = {
     'files': [],
-    'dirs': ['lib/python%(pyshortver)s/site-packages'],
+    'dirs': ['bin'],
 }
 
 moduleclass = 'math'
