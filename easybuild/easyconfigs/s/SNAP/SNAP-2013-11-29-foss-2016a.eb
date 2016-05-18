@@ -1,4 +1,4 @@
-easyblock = 'ConfigureMake' 
+easyblock = 'MakeCp' 
 
 name = 'SNAP'
 version = '2013-11-29'
@@ -9,12 +9,40 @@ description = """SNAP (Semi-HMM-based Nucleic Acid Parser) is a general purpose 
 
 toolchain = {'name': 'foss', 'version': '2016a'}
 
+dependencies = [
+    ('Perl', '5.22.1')
+]
+
 source_urls = ['http://korflab.ucdavis.edu/Software/']
 sources = [SOURCELOWER_TAR_GZ]
 
+list_of_executables = [
+   'snap',
+   'forge',
+   'fathom',
+   'exonpairs',
+   'hmm-info',
+   'hmm-assembler.pl',
+   'noncoding-trainer.pl',
+   'zff2gff3.pl',
+   'patch-hmm.pl',
+   'cds-trainer.pl',
+]
+
+files_to_copy = [
+    (list_of_executables, "bin"),
+    'DNA',
+    'HMM',
+    (['Zoe/zoe-loop'], "Zoe"),
+]
+
+modextravars = {'ZOE': '$root/Zoe'}
+modextrapaths = {'PATH': '$root/Zoe'}
+
 sanity_check_paths = {
-    'files': ['bin/gmap', 'bin/gsnap'],
-    'dirs': [],
+    'files': ["bin/%s" % x for x in list_of_executables],
+    'dirs': ["DNA", "HMM", "Zoe"],
 }
 
 moduleclass = 'bio'
+
