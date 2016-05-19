@@ -1,0 +1,27 @@
+easyblock = 'Binary'
+
+name = 'TRF'
+version = '4.09'
+versionsuffix = '-linux64'
+
+homepage = 'https://tandem.bu.edu/trf/trf.html'
+description = """Tandem repeats finder: a program to analyze DNA sequences"""
+
+toolchain = {'name': 'dummy', 'version': ''}
+
+#source_urls = ['https://tandem.bu.edu/trf/trf409.linux64.download.html']
+sources = ['trf409.linux64']
+checksums = [('md5', '0c594fe666e0332db1df9d160d7fabc8')]
+
+dependencies = [
+    ('GLib', '2.47.5', '-foss-2016a'),
+]
+
+sanity_check_paths = {
+    'files': ['trf409.linux64'],
+    'dirs': []
+}
+
+preinstallopts = "mv trf409.linux64 trf"
+
+moduleclass = 'bio'
