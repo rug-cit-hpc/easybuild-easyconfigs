@@ -17,11 +17,11 @@ dependencies = [
     ('GLib', '2.48.0', '-foss-2016a'),
 ]
 
+postinstallcmds = ["mv %(installdir)s/trf409.linux64 %(installdir)s/trf"]
+
 sanity_check_paths = {
-    'files': ['trf409.linux64'],
+    'files': ['trf'],
     'dirs': []
 }
-
-preinstallopts = "mv trf409.linux64 trf"
 
 moduleclass = 'bio'
