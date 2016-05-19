@@ -1,22 +1,28 @@
-easyblock = 'ConfigureMake'
+easyblock = 'PerlModule'
 
 name = 'RepeatMasker'
-version = 'open-4-0-5'
+version = 'open-4-0-6'
+versionsuffix = '-Perl-5.22.1'
 
 homepage = 'https://bitbucket.org/fenics-project/fiat'
-description = """The FInite element Automatic Tabulator FIAT supports generation of arbitrary order
- instances of the Lagrange elements on lines, triangles, and tetrahedra. It is also capable of generating
- arbitrary order instances of Jacobi-type quadrature rules on the same element shapes."""
+description = """RepeatMasker is a program that screens DNA sequences for interspersed repeats and low complexity DNA sequences.
+ The output of the program is a detailed annotation of the repeats that are present in the query sequence as well as a modified 
+ version of the query sequence in which all the annotated repeats have been masked (default: replaced by Ns). Currently over 56%
+ of human genomic sequence is identified and masked by the program. Sequence comparisons in RepeatMasker are performed by one of
+ several popular search engines including nhmmer, cross_match, ABBlast/WUBlast, RMBlast and Decypher. RepeatMasker makes use of
+ curated libraries of repeats and currently supports Dfam ( profile HMM library derived from Repbase sequences ) and Repbase, a
+ service of the Genetic Information Research Institute."""
 
 toolchain = {'name': 'foss', 'version': '2016a'}
 
-source_urls = ['https://www.repeatmasker.org']
+source_urls = ['http://www.repeatmasker.org']
 sources = [%(name)-%(version)s.tar.gz]
 
-'''dependencies = [
-    ('Python', '2.7.11'),
-    ('sympy', '1.0', '-Python-%(pyver)s'),
-]'''
+dependencies = [
+    ('Perl', '5.22.1'),
+    ('TRF', '4.09', '-linux64'),
+    ('HMMER', '3.1b2'),
+]
 
 
 sanity_check_paths = {
