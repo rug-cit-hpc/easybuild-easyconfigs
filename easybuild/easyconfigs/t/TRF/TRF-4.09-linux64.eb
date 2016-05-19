@@ -14,7 +14,7 @@ sources = ['trf409.linux64']
 checksums = [('md5', '0c594fe666e0332db1df9d160d7fabc8')]
 
 dependencies = [
-    ('GLib', '2.47.5', '-foss-2016a'),
+    ('GLib', '2.48.0', '-foss-2016a'),
 ]
 
 sanity_check_paths = {
