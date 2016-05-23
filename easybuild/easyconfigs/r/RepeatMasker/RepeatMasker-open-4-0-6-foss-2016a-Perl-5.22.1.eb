@@ -1,3 +1,5 @@
+### INSTALL RMBLAST (AND NEW BLAST+ OR OLD)
+
 easyblock = 'PerlModule'
 
 name = 'RepeatMasker'
