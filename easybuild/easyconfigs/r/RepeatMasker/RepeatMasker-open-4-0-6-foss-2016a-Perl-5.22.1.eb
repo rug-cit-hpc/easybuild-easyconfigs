@@ -16,14 +16,14 @@ description = """RepeatMasker is a program that screens DNA sequences for inters
 toolchain = {'name': 'foss', 'version': '2016a'}
 
 source_urls = ['http://www.repeatmasker.org']
-sources = [%(name)-%(version)s.tar.gz]
+#sources = [%(name)-%(version)s.tar.gz]
+sources = [SOURCE_TAR_GZ]
 
 dependencies = [
     ('Perl', '5.22.1'),
-    ('TRF', '4.09', '-linux64'),
+    ('TRF', '4.09', '-linux64',('dummy', '')),
     ('HMMER', '3.1b2'),
 ]
-
 
 sanity_check_paths = {
     'files': [],
