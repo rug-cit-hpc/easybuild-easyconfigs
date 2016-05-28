@@ -21,16 +21,18 @@ source_urls = ['http://www.repeatmasker.org']
 #sources = [%(name)-%(version)s.tar.gz]
 sources = [SOURCE_TAR_GZ]
 
+skipsteps = ['sanity_check_paths']
+
+#    ('HMMER', '3.1b2'),
 dependencies = [
     ('Perl', '5.22.1'),
     ('TRF', '4.09', '-linux64',('dummy', '')),
-    ('HMMER', '3.1b2'),
-    ('RMBLAST', '2.2.28-linux64', '-Python-2.7.11')
+    ('RMBlast', '2.2.28-linux64', '-Python-2.7.11', ('dummy', '')),
 ]
 
 sanity_check_paths = {
-    'files': [],
-    'dirs': ['bin'],
+    'files': [''],
+    'dirs': [],
 }
 
 moduleclass = 'math'

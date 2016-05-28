@@ -22,7 +22,7 @@ dependencies = [
 
 sanity_check_paths = {
     'files': [],
-    'dirs': []
+    'dirs': ['lib']
 }
 
 moduleclass = 'bio'
