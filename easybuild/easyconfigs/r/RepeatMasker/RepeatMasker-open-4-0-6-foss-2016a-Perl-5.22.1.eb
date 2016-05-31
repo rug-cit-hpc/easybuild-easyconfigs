@@ -1,4 +1,4 @@
-easyblock = 'Binary'
+easyblock = 'PackedBinary'
 
 name = 'RepeatMasker'
 version = 'open-4-0-6'
@@ -15,11 +15,9 @@ description = """RepeatMasker is a program that screens DNA sequences for inters
 
 toolchain = {'name': 'foss', 'version': '2016a'}
 
-source_urls = ['http://www.repeatmasker.org']
+source_urls = ['http://www.repeatmasker.org/']
 #sources = [%(name)-%(version)s.tar.gz]
 sources = [SOURCE_TAR_GZ]
-
-skipsteps = ['sanity_check_paths']
 
 #    ('HMMER', '3.1b2'),
 dependencies = [
@@ -28,8 +26,22 @@ dependencies = [
     ('RMBlast', '2.2.28-linux64', '-Python-2.7.11', ('dummy', '')),
 ]
 
+skipsteps = ['configure', 'test']
+
+#binaries = [
+#    'DateRepeats', 'ProcessRepeats', 'RepeatMasker', 'RepeatProteinMask', 'util/trfMask', 'configure',
+#]
+
+# RepeatMasker has a configure that needs some input: 
+#  "cd %(installdir)s",
+
+postinstallcmds = [
+  "printf $(pwd)",
+  "cd %(installdir)s && printf $(pwd) && printf '\n\n\n\n%s\n%s\n\n%s\n' '2' $EBROOTRMBLAST '5' > conf.in && ./configure < conf.in && rm conf.in",
+]
+
 sanity_check_paths = {
-    'files': [''],
+    'files': ['configure'],
     'dirs': [],
 }
 
