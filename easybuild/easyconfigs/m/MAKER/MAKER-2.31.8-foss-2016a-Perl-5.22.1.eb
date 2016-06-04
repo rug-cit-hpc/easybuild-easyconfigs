@@ -1,0 +1,115 @@
+easyblock = 'Bundle'
+
+name = 'MAKER'
+version = '2.31.8'
+versionsuffix = '-Perl-%(perlver)s'
+
+homepage = 'http://www.yandell-lab.org/'
+description = """MAKER is a portable and easily configurable genome annotation pipeline. Its purpose is to allow smaller
+ eukaryotic and prokaryotic genome projects to independently annotate their genomes and to create genome databases. MAKER
+ identifies repeats, aligns ESTs and proteins to a genome, produces ab-initio gene predictions and automatically synthesizes
+ these data into gene annotations having evidence-based quality values. MAKER is also easily trainable: outputs of preliminary
+ runs can be used to automatically retrain its gene prediction algorithm, producing higher quality gene-models on seusequent
+ runs. MAKER's inputs are minimal and its ouputs can be directly loaded into a GMOD database. They can also be viewed in the
+ Apollo genome browser; this feature of MAKER provides an easy means to annotate, view and edit individual contigs and   BACs
+ without the overhead of a database. MAKER should prove especially useful for emerging model organism projects with minimal
+ bioinformatics expertise and computer resources."""
+
+toolchain = {'name': 'foss', 'version': '2016a'}
+
+# Register to download at http://www.yandell-lab.org/software/maker.html
+sources = ['maker-%(version)s.tgz']
+
+dependencies = [
+    ('Perl', '5.22.1'),
+    ('BioPerl', '1.6.924', versionsuffix),
+    ('SNAP', '2013-11-29'),
+    ('RepeatMasker', '4-0-6', versionsuffix),
+    ('OpenMPI', '1.10.2', '', ('GCC', '4.9.3-2.25')),
+]
+
+
+# Perl dependencies
+exts_defaultclass = 'PerlModule'
+exts_filter = ("perldoc -lm %(ext_name)s ", "")
+
+exts_list = [
+    ('ExtUtils::MakeMaker', '7.18', {
+        'source_tmpl': 'ExtUtils-MakeMaker-7.18.tar.gz',
+        'source_urls': ['https://cpan.metacpan.org/authors/id/B/BI/BINGOS/'],
+    }),
+    ('YAML', '1.15', {
+        'source_tmpl': 'YAML-1.15.tar.gz',
+        'source_urls': ['https://cpan.metacpan.org/authors/id/I/IN/INGY/'],
+    }),
+    ('Acme-Damn', '0.06', {
+        'source_tmpl': 'Acme-Damn-0.06.tar.gz',
+        'source_urls': ['https://cpan.metacpan.org/authors/id/I/IB/IBB/'],
+    }),
+    ('PathTools', '3.62', {
+        'source_tmpl': 'PathTools-3.62.tar.gz',
+        'source_urls': ['https://cpan.metacpan.org/authors/id/R/RJ/RJBS/'],
+    }),
+    ('Carp-Clan', '6.06', {
+        'source_tmpl': 'Carp-Clan-6.06.tar.gz',
+        'source_urls': ['https://cpan.metacpan.org/authors/id/K/KE/KENTNL/'],
+    }),
+    ('File::ShareDir', '1.102', {
+        'source_tmpl': 'File-ShareDir-1.102.tar.gz',
+        'source_urls': ['https://cpan.metacpan.org/authors/id/R/RE/REHSACK/']
+    }),
+    ('File::DesktopEntry', '0.22', {
+        'source_tmpl': 'File-DesktopEntry-0.22.tar.gz',
+        'source_urls': ['https://cpan.metacpan.org/authors/id/M/MI/MICHIELB/'],
+    }),
+    ('File::BaseDir', '0.07', {
+        'source_tmpl': 'File-BaseDir-0.07.tar.gz',
+        'source_urls': ['https://cpan.metacpan.org/authors/id/K/KI/KIMRYAN/'],
+    }),
+    ('File::ShareDir::Install', '0.10', {
+        'source_tmpl': 'File-ShareDir-Install-0.10.tar.gz',
+        'source_urls': ['https://cpan.metacpan.org/authors/id/G/GW/GWYN/'],
+    }),
+    ('File::ReadBackwards', '1.05', {
+        'source_tmpl': 'File-ReadBackwards-1.05.tar.gz',
+        'source_urls': ['https://cpan.metacpan.org/authors/id/U/UR/URI/'],
+    }),
+    ('Bit::Vector', '7.4', {
+        'source_tmpl': 'Bit-Vector-7.4.tar.gz',
+        'source_urls': ['https://cpan.metacpan.org/authors/id/S/ST/STBEY/'],
+    }),
+    ('IO::All', '0.86', {
+       	'source_tmpl': 'IO-All-0.86.tar.gz',
+       	'source_urls': ['https://cpan.metacpan.org/authors/id/I/IN/INGY/'],
+    }),
+    ('Perl::Unsafe::Signals', '0.03', {
+       	'source_tmpl': 'Perl-Unsafe-Signals-0.03.tar.gz',
+       	'source_urls': ['https://cpan.metacpan.org/authors/id/R/RG/RGARCIA/'],
+    }),
+    ('forks', '0.36', {
+       	'source_tmpl': 'forks-0.36.tar.gz',
+       	'source_urls': ['https://cpan.metacpan.org/authors/id/R/RY/RYBSKEJ/'],
+    }),
+    ('forks::shared', '0.36', {
+       	'source_tmpl': 'forks-0.36.tar.gz',
+       	'source_urls': ['https://cpan.metacpan.org/authors/id/R/RY/RYBSKEJ/'],
+    }),
+    ('Pegex', '0.60', {
+       	'source_tmpl': 'Pegex-0.60.tar.gz',
+       	'source_urls': ['https://cpan.metacpan.org/authors/id/I/IN/INGY/'],
+    }),
+    ('Inline', '0.80', {
+       	'source_tmpl': 'Inline-0.80.tar.gz',
+       	'source_urls': ['https://cpan.metacpan.org/authors/id/I/IN/INGY/'],
+    }),
+    ('Inline::C', '0.76', {
+       	'source_tmpl': 'Inline-C-0.76.tar.gz',
+       	'source_urls': ['https://cpan.metacpan.org/authors/id/I/IN/INGY/'],
+    }),
+]
+
+#modextrapaths = {
+#    'PERL5LIB': 'lib/perl5/site_perl/%(perlver)s/'
+#}
+
+moduleclass = 'bio'
