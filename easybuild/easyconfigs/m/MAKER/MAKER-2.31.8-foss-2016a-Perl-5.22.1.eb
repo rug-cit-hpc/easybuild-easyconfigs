@@ -24,7 +24,7 @@ dependencies = [
     ('Perl', '5.22.1'),
     ('BioPerl', '1.6.924', versionsuffix),
     ('SNAP', '2013-11-29'),
-    ('RepeatMasker', '4-0-6', versionsuffix),
+    ('RepeatMasker', '4.0.6', versionsuffix),
     ('OpenMPI', '1.10.2', '', ('GCC', '4.9.3-2.25')),
 ]
 
