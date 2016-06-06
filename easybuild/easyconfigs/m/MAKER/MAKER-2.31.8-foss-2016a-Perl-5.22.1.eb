@@ -34,6 +34,26 @@ exts_defaultclass = 'PerlModule'
 exts_filter = ("perldoc -lm %(ext_name)s ", "")
 
 exts_list = [
+    ('App::Cpan', '2.10', {
+        'source_tmpl': 'CPAN-2.10.tar.gz',
+        'source_urls': ['https://cpan.metacpan.org/authors/id/A/AN/ANDK/'],
+    }),
+    ('File::ShareDir::Install', '0.10', {
+        'source_tmpl': 'File-ShareDir-Install-0.10.tar.gz',
+        'source_urls': ['https://cpan.metacpan.org/authors/id/G/GW/GWYN/'],
+    }),
+    ('local::lib', '2.000019', {
+        'source_tmpl': 'local-lib-2.000019.tar.gz',
+        'source_urls': ['https://cpan.metacpan.org/authors/id/H/HA/HAARG/'],
+    }),
+    ('IPC::System::Simple', '1.25', {
+        'source_tmpl': 'IPC-System-Simple-1.25.tar.gz',
+        'source_urls': ['https://cpan.metacpan.org/authors/id/P/PJ/PJF/'],
+    }),
+    ('File::Copy::Recursive', '0.38', {
+        'source_tmpl': 'File-Copy-Recursive-0.38.tar.gz',
+        'source_urls': ['https://cpan.metacpan.org/authors/id/D/DM/DMUEY/'],
+    }),    
     ('ExtUtils::MakeMaker', '7.18', {
         'source_tmpl': 'ExtUtils-MakeMaker-7.18.tar.gz',
         'source_urls': ['https://cpan.metacpan.org/authors/id/B/BI/BINGOS/'],
@@ -65,10 +85,6 @@ exts_list = [
     ('File::BaseDir', '0.07', {
         'source_tmpl': 'File-BaseDir-0.07.tar.gz',
         'source_urls': ['https://cpan.metacpan.org/authors/id/K/KI/KIMRYAN/'],
-    }),
-    ('File::ShareDir::Install', '0.10', {
-        'source_tmpl': 'File-ShareDir-Install-0.10.tar.gz',
-        'source_urls': ['https://cpan.metacpan.org/authors/id/G/GW/GWYN/'],
     }),
     ('File::ReadBackwards', '1.05', {
         'source_tmpl': 'File-ReadBackwards-1.05.tar.gz',
