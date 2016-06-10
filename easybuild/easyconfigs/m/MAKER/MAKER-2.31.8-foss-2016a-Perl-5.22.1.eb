@@ -1,4 +1,5 @@
-easyblock = 'Bundle'
+#easyblock = 'Bundle'
+#easyblock = 'MAKER'
 
 name = 'MAKER'
 version = '2.31.8'
@@ -30,6 +31,7 @@ dependencies = [
 
 
 # Perl dependencies
+exts_classmap = {'MAKER' : 'PythonPackage'}
 exts_defaultclass = 'PerlModule'
 exts_filter = ("perldoc -lm %(ext_name)s ", "")
 
@@ -63,14 +65,18 @@ exts_list = [
         'source_urls': ['https://cpan.metacpan.org/authors/id/I/IN/INGY/'],
     }),
     ('Acme-Damn', '0.06', {
+        'modulename': 'Acme::Damn',
         'source_tmpl': 'Acme-Damn-0.06.tar.gz',
         'source_urls': ['https://cpan.metacpan.org/authors/id/I/IB/IBB/'],
     }),
     ('PathTools', '3.62', {
+        # This is the combined distribution for the File::Spec and Cwd modules.
+        'modulename': 'Cwd',
         'source_tmpl': 'PathTools-3.62.tar.gz',
         'source_urls': ['https://cpan.metacpan.org/authors/id/R/RJ/RJBS/'],
     }),
     ('Carp-Clan', '6.06', {
+        'modulename': 'Carp::Clan',
         'source_tmpl': 'Carp-Clan-6.06.tar.gz',
         'source_urls': ['https://cpan.metacpan.org/authors/id/K/KE/KENTNL/'],
     }),
@@ -122,10 +128,19 @@ exts_list = [
        	'source_tmpl': 'Inline-C-0.76.tar.gz',
        	'source_urls': ['https://cpan.metacpan.org/authors/id/I/IN/INGY/'],
     }),
+    ('Sys::SigAction', '0.21', {
+       	'source_tmpl': 'Sys-SigAction-0.21.tar.gz',
+       	'source_urls': ['https://cpan.metacpan.org/authors/id/L/LB/LBAXTER/'],
+    }),
+    ('Storable', '2.51', {
+       	'source_tmpl': 'Storable-2.51.tar.gz',
+       	'source_urls': ['http://search.cpan.org/CPAN/authors/id/A/AM/AMS/'],
+    }),
 ]
 
-#modextrapaths = {
-#    'PERL5LIB': 'lib/perl5/site_perl/%(perlver)s/'
-#}
+modextrapaths = {
+    'PERL5LIB': 'lib/perl5/site_perl/%(perlver)s/'
+}
 
 moduleclass = 'bio'
+
