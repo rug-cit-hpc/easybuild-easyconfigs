@@ -1,6 +1,3 @@
-#easyblock = 'Bundle'
-#easyblock = 'MAKER'
-
 name = 'MAKER'
 version = '2.31.8'
 versionsuffix = '-Perl-%(perlver)s'
@@ -35,6 +32,10 @@ exts_classmap = {'MAKER' : 'PythonPackage'}
 exts_defaultclass = 'PerlModule'
 exts_filter = ("perldoc -lm %(ext_name)s ", "")
 
+#    ('local::lib', '2.000019', {
+#        'source_tmpl': 'local-lib-2.000019.tar.gz',
+#        'source_urls': ['https://cpan.metacpan.org/authors/id/H/HA/HAARG/'],
+#    }),
 exts_list = [
     ('App::Cpan', '2.10', {
         'source_tmpl': 'CPAN-2.10.tar.gz',
@@ -43,10 +44,6 @@ exts_list = [
     ('File::ShareDir::Install', '0.10', {
         'source_tmpl': 'File-ShareDir-Install-0.10.tar.gz',
         'source_urls': ['https://cpan.metacpan.org/authors/id/G/GW/GWYN/'],
-    }),
-    ('local::lib', '2.000019', {
-        'source_tmpl': 'local-lib-2.000019.tar.gz',
-        'source_urls': ['https://cpan.metacpan.org/authors/id/H/HA/HAARG/'],
     }),
     ('IPC::System::Simple', '1.25', {
         'source_tmpl': 'IPC-System-Simple-1.25.tar.gz',
