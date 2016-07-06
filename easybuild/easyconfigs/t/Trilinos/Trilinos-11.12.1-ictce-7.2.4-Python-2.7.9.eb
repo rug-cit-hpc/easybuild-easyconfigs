@@ -30,7 +30,8 @@ dependencies = [
 
 builddependencies = [('CMake', '2.8.12.1', '', ('GCC','4.8.4'))]
 
-configopts = '-DTPL_ENABLE_BLACS:BOOL=ON -DTPL_BLACS_LIBRARIES="libmkl_blacs_intelmpi_lp64.a" -DTPL_ENABLE_SCALAPACK:BOOL=ON -DTPL_SCALAPACK_LIBRARIES="libmkl_scalapack_lp64.a"'
+#configopts = '-DTPL_ENABLE_BLACS:BOOL=ON -DTPL_BLACS_LIBRARIES="libmkl_blacs_intelmpi_lp64.a" -DTPL_ENABLE_SCALAPACK:BOOL=ON -DTPL_SCALAPACK_LIBRARIES="libmkl_scalapack_lp64.a"'
+configopts = '-DTPL_ENABLE_BLACS:BOOL=ON -DTPL_BLACS_LIBRARIES="$EBROOTIMKL/mkl/lib/intel64/libmkl_blacs_intelmpi_lp64.a" -DTPL_ENABLE_SCALAPACK:BOOL=ON -DTPL_SCALAPACK_LIBRARIES="$EBROOTIMKL/mkl/lib/intel64/libmkl_scalapack_lp64.a"'
 
 # Reduce memory usage
 parallel = 1
