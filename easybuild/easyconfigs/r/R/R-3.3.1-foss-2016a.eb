@@ -282,6 +282,7 @@ exts_list = [
     ('spdep', '0.6-5', ext_options),
     ('assertthat', '0.1', ext_options),
     ('lazyeval', '0.2.0', ext_options),
+    ('tibble', '1.1', ext_options),
     ('dplyr', '0.5.0', ext_options),
     ('vegan', '2.4-0', ext_options),
     ('adegenet', '2.0.1', ext_options),
