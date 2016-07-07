@@ -9,7 +9,8 @@ toolchain = {'name': 'foss', 'version': '2016a'}
 sources = [SOURCE_TAR_GZ]
 source_urls = ['http://cran.us.r-project.org/src/base/R-%(version_major)s']
 
-preconfigopts = 'BLAS_LIBS="$LIBBLAS" LAPACK_LIBS="$LIBLAPACK"'
+#preconfigopts = 'BLAS_LIBS="$LIBBLAS" LAPACK_LIBS="$LIBLAPACK"'
+preconfigopts = 'BLAS_LIBS="$LIBBLAS"'
 configopts = '--with-lapack --with-blas --with-pic --enable-threads --enable-R-shlib --with-tcltk --with-x '
 # enabling Tcl/Tk
 configopts += ' --with-tcl-config=$EBROOTTCL/lib/tclConfig.sh --with-tk-config=$EBROOTTK/lib/tkConfig.sh '
