@@ -16,14 +16,7 @@ source_urls = ["http://downloads.sourceforge.net/project/dmtcp/dmtcp-2.x/%s/" % 
 
 configopts = "--enable-timing --enable-infiniband-support"
 
-executables = [
-    'dmtcp_checkpoint',
-    'dmtcp_command',
-    'dmtcp_coordinator',
-    'dmtcp_discover_rm',
-    'dmtcp_launch',
-    'dmtcp_restart',
-]
+executables = ['dmtcp_command', 'dmtcp_coordinator', 'dmtcp_discover_rm', 'dmtcp_launch', 'dmtcp_restart']
 
 sanity_check_paths = {
     'files': ['bin/%s' % x for x in executables],
