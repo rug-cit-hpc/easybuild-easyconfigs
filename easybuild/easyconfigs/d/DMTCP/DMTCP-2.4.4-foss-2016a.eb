@@ -1,0 +1,33 @@
+easyblock = 'ConfigureMake'
+
+name = 'DMTCP'
+version = '2.4.4'
+
+homepage = 'http://dmtcp.sourceforge.net//index.html'
+description = '''DMTCP (Distributed MultiThreaded Checkpointing) Checkpoint/Restart allows one to transparently
+checkpoint to disk a distributed computation. It works under Linux, with no modifications to the Linux kernel nor
+to the application binaries. It can be used by unprivileged users (no root privilege needed). One can later restart
+from a checkpoint, or even migrate the processes by moving the checkpoint files to another host prior to restarting.'''
+
+toolchain = {'name': 'foss', 'version': '2016a'}
+
+sources = [SOURCELOWER_TAR_GZ]
+source_urls = ["http://downloads.sourceforge.net/project/dmtcp/dmtcp-2.x/%s/" % (version)]
+
+configopts = "--enable-timing --enable-infiniband-support"
+
+executables = [
+    'dmtcp_checkpoint',
+    'dmtcp_command',
+    'dmtcp_coordinator',
+    'dmtcp_discover_rm',
+    'dmtcp_launch',
+    'dmtcp_restart',
+]
+
+sanity_check_paths = {
+    'files': ['bin/%s' % x for x in executables],
+    'dirs': []
+}
+
+moduleclass = 'tools'
