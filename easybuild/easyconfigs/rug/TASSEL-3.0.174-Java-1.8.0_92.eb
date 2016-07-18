@@ -1,0 +1,27 @@
+easyblock = 'Tarball'
+
+name = 'TASSEL'
+version = '3.0.174'
+commit = '612a92c0f677d6ec040c17e146671974a3cdc2da'
+versionsuffix = '-Java-%(javaver)s'
+
+homepage = 'http://www.maizegenetics.net/tassel'
+description = """TASSEL provides tools to investigate relationships between phenotypes and genotypes"""
+
+toolchain = {'name': 'dummy', 'version': 'dummy'}
+
+source_urls = ['https://sourceforge.net/code-snapshots/git/t/ta/tassel/tassel3-standalone.git/']
+sources = ['%%(namelower)s-%%(namelower)s%%(version_major)s-standalone-%s.zip' % commit]
+
+dependencies = [('Java', '1.8.0_92', '', True)]
+
+sanity_check_paths = {
+    'dirs': ['lib', 'example_pipelines', 'TASSELTutorialData'],
+    'files': ['start_tassel.pl', 'sTASSEL.jar'],
+}
+
+modextrapaths = {
+    'PATH': '',
+}
+
+moduleclass = 'bio'
