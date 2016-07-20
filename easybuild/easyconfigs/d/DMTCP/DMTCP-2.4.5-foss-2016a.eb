@@ -14,6 +14,7 @@ toolchain = {'name': 'foss', 'version': '2016a'}
 source_urls = ['https://github.com/%(namelower)s/%(namelower)s/archive/']
 sources = ['%(version)s.tar.gz']
 
+# --enable-pthread-mutex-wrappers is (only) recommended when using OpenMPI
 configopts = "--enable-infiniband-support --enable-pthread-mutex-wrappers"
 
 executables = ['dmtcp_command', 'dmtcp_coordinator', 'dmtcp_discover_rm', 'dmtcp_launch', 'dmtcp_restart']
