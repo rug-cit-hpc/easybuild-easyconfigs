@@ -14,7 +14,7 @@ toolchain = {'name': 'foss', 'version': '2016a'}
 sources = [SOURCELOWER_TAR_GZ]
 source_urls = ["http://downloads.sourceforge.net/project/dmtcp/dmtcp-2.x/%s/" % (version)]
 
-configopts = "--enable-timing --enable-infiniband-support"
+configopts = "--enable-timing --enable-infiniband-support --enable-pthread-mutex-wrappers"
 
 executables = ['dmtcp_command', 'dmtcp_coordinator', 'dmtcp_discover_rm', 'dmtcp_launch', 'dmtcp_restart']
 
