@@ -11,8 +11,8 @@ from a checkpoint, or even migrate the processes by moving the checkpoint files 
 
 toolchain = {'name': 'foss', 'version': '2016a'}
 
-sources = [SOURCELOWER_TAR_GZ]
-source_urls = ["http://downloads.sourceforge.net/project/dmtcp/dmtcp-2.x/%s/" % (version)]
+source_urls = ['https://github.com/%(namelower)s/%(namelower)s/archive/']
+sources = ['%(version)s.tar.gz']
 
 configopts = "--enable-infiniband-support --enable-pthread-mutex-wrappers"
 
