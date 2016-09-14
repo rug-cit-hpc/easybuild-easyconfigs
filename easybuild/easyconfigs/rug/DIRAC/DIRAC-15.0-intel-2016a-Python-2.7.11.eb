@@ -1,0 +1,42 @@
+name = 'DIRAC'
+version = '15.0'
+versionsuffix = '-Python-2.7.11'
+
+homepage = 'http://diracprogram.org/'
+description = """The DIRAC program computes molecular properties using relativistic quantum chemical methods."""
+
+toolchain = {'name': 'intel', 'version': '2016a'}
+toolchainopts = {'usempi': True}
+
+# requires registration/license to download, http://dirac.chem.sdu.dk/DIRAC15/
+sources = ['%(name)s-%(version)s-Source.tar.gz']
+
+#patches = ['DIRAC-%(version)s_fix-linking-issues.patch']
+patches = ['DIRAC-%(version)s_fix-libgetkw-boost-issues.patch', 'DIRAC-%(version)s_fix-make-install.patch', 'DIRAC-15.0_fix-hergp-Tc-values.patch']
+
+dependencies = [
+#    ('Python', pythonver),
+    ('zlib', '1.2.8'),
+    ('Boost', '1.59.0', versionsuffix),
+    ('Eigen', '3.2.7', '', ('dummy', '')),
+]
+builddependencies = [('CMake', '2.8.12.1', '', ('GCC','4.8.4'))]
+
+#preconfigopts = 'export Boost_NO_BOOST_CMAKE=ON BOOST_ROOT=/software/software/Boost/1.57.0-ictce-7.2.4-Python-2.7.9 && '
+#prebuildopts = 'export Boost_NO_BOOST_CMAKE=ON BOOST_ROOT=/software/software/Boost/1.57.0-ictce-7.2.4-Python-2.7.9 && '
+#preinstallopts = 'export Boost_NO_BOOST_CMAKE=ON && '
+
+parallel = 1
+
+runtest = True
+
+moduleclass = 'chem'
+modtclfooter = '''if {[info exists env(SCRATCHDIR)]} {
+    setenv	DIRAC_TMPDIR	$env(SCRATCHDIR)
+} else {
+    set		name		[exec /usr/bin/whoami]
+    setenv	DIRAC_TMPDIR	"/scratch/$name"
+}
+
+setenv	DIRAC_MPI_COMMAND	"srun"
+'''
