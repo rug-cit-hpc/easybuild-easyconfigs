@@ -1,0 +1,11 @@
+--- DIRAC-15.0-Source-orig/external/pcmsolver/cmake/custom/libgetkw.cmake	2016-09-13 14:34:31.000000000 +0200
++++ DIRAC-15.0-Source/external/pcmsolver/cmake/custom/libgetkw.cmake	2016-09-13 14:34:10.000000000 +0200
+@@ -9,6 +9,8 @@
+    -DCMAKE_CXX_FLAGS=${CMAKE_CXX_FLAGS}
+    -DBOOST_INCLUDEDIR=${Boost_INCLUDE_DIRS}
+    -DBOOST_LIBRARYDIR=${Boost_LIBRARY_DIRS}
++   -DBoost_NO_BOOST_CMAKE=ON
++   -DBoost_NO_SYSTEM_PATHS=ON
+    )
+ 
+ ExternalProject_Add(libgetkw

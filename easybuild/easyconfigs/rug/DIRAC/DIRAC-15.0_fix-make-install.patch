@@ -1,0 +1,31 @@
+commit cad3ecc122d6f45ed6ab38411c3538c3d52fe41e
+Author: Radovan Bast <bast@users.noreply.github.com>
+Date:   Fri Feb 19 12:45:08 2016 +0100
+
+    restore make install
+
+diff --git a/cmake/custom/install.cmake b/cmake/custom/install.cmake
+index 0d89b8c..3217e07 100644
+--- a/cmake/custom/install.cmake
++++ b/cmake/custom/install.cmake
+@@ -4,7 +4,7 @@ file(COPY ${PROJECT_SOURCE_DIR}/basis_ecp    DESTINATION ${PROJECT_BINARY_DIR})
+ 
+ foreach(
+     EXECUTABLE
+-    ${LIST_OF_EXECUTABLES}
++    ${_list_of_executables}
+     )
+     install(
+         TARGETS ${EXECUTABLE}
+diff --git a/cmake/custom/main.cmake b/cmake/custom/main.cmake
+index 361e016..84d4d28 100644
+--- a/cmake/custom/main.cmake
++++ b/cmake/custom/main.cmake
+@@ -150,4 +150,6 @@ foreach(
+ 
+ endforeach()
+ 
+-unset(_list_of_executables)
++# radovan: no! we cannot unset
++#          these are used in the make install target
++# unset(_list_of_executables)
