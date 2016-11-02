@@ -1,0 +1,127 @@
+--- amber16/AmberTools/src/configure2.orig	2016-10-27 13:30:35.000000000 +0200
++++ amber16/AmberTools/src/configure2	2016-10-27 16:38:38.000000000 +0200
+@@ -497,7 +497,7 @@
+ intel_compiler_flag_mkl='no'
+ intelmpi='no'
+ is_mac='no'
+-ldflags=''
++ldflags="$LDFLAGS"
+ ld='ld '
+ lfs='yes'
+ lm='-lm'
+@@ -513,6 +513,7 @@
+ mpi='no'
+ mtkpp='install_mtkpp'
+ netcdf_dir=''
++netcdf_fort_dir=''
+ netcdf_flag=''
+ netcdfstatic='no'
+ pnetcdf_dir=''
+@@ -587,6 +588,7 @@
+ 	--skip-python)  skippython='yes' ;;
+         --with-python)  shift; python="$1";;
+         --with-netcdf)  shift; netcdf_dir="$1";;
++        --with-netcdf-fort)  shift; netcdf_fort_dir="$1";;
+         --with-pnetcdf) shift; pnetcdf_dir="$1" ;;
+         --python-install) shift; python_install="$1";;
+         -netcdfstatic)  netcdfstatic='yes' ;;
+@@ -1280,7 +1282,7 @@
+         nvcc="$nvcc -use_fast_math -O3 "
+       fi
+       if [ "$mpi" = 'yes' ]; then
+-        mpi_inc=`(mpicc -show 2>&1) | awk 'BEGIN{i=0} {while (i < NF) {if ( substr($i, 1, 2) == "-I" ) {printf("%s ", $i);}; i++;}}'`
++        mpi_inc=`(${CC} -show 2>&1) | awk 'BEGIN{i=0} {while (i < NF) {if ( substr($i, 1, 2) == "-I" ) {printf("%s ", $i);}; i++;}}'`
+         pmemd_cu_includes="$pmemd_cu_includes $mpi_inc"
+         pmemd_cu_defines="$pmemd_cu_defines -DMPI -DMPICH_IGNORE_CXX_SEEK"
+         pmemd_coptflags="$coptflags -DMPICH_IGNORE_CXX_SEEK"
+@@ -1598,7 +1600,7 @@
+       fi
+ 
+       if [ "$mpi" = 'yes' ]; then
+-          mpi_inc=`(mpicc -show 2>&1) | awk 'BEGIN{i=0} {while (i < NF) {if ( substr($i, 1, 2) == "-I" ) {printf("%s ", $i);}; i++;}}'`
++          mpi_inc=`(${CC} -show 2>&1) | awk 'BEGIN{i=0} {while (i < NF) {if ( substr($i, 1, 2) == "-I" ) {printf("%s ", $i);}; i++;}}'`
+         pmemd_cu_includes="$pmemd_cu_includes $mpi_inc"
+         pmemd_cu_defines="$pmemd_cu_defines -DMPI -DMPICH_IGNORE_CXX_SEEK"
+         pmemd_coptflags="$pmemd_coptflags -DMPICH_IGNORE_CXX_SEEK"
+@@ -1924,7 +1926,7 @@
+         nvcc="$nvcc -use_fast_math -O3 "
+       fi
+       if [ "$mpi" = 'yes' ]; then
+-        mpi_inc=`(mpicc -show 2>&1) | awk 'BEGIN{i=0} {while (i < NF) {if ( substr($i, 1, 2) == "-I" ) {printf("%s ", $i);}; i++;}}'`
++        mpi_inc=`(${CC} -show 2>&1) | awk 'BEGIN{i=0} {while (i < NF) {if ( substr($i, 1, 2) == "-I" ) {printf("%s ", $i);}; i++;}}'`
+         pmemd_cu_includes="$pmemd_cu_includes $mpi_inc"
+         pmemd_cu_defines="$pmemd_cu_defines -DMPI -DMPICH_IGNORE_CXX_SEEK"
+         pmemd_coptflags="$coptflags -DMPICH_IGNORE_CXX_SEEK"
+@@ -2059,7 +2061,7 @@
+         nvcc="$nvcc -use_fast_math -O3 "
+       fi
+       if [ "$mpi" = 'yes' ]; then
+-        mpi_inc=`(mpicc -show 2>&1) | awk 'BEGIN{i=0} {while (i < NF) {if ( substr($i, 1, 2) == "-I" ) {printf("%s ", $i);}; i++;}}'`
++        mpi_inc=`(${CC} -show 2>&1) | awk 'BEGIN{i=0} {while (i < NF) {if ( substr($i, 1, 2) == "-I" ) {printf("%s ", $i);}; i++;}}'`
+         pmemd_cu_includes="$pmemd_cu_includes $mpi_inc"
+         pmemd_cu_defines="$pmemd_cu_defines -DMPI -DMPICH_IGNORE_CXX_SEEK"
+         pmemd_coptflags="$coptflags -DMPICH_IGNORE_CXX_SEEK"
+@@ -2131,17 +2133,17 @@
+     blas=skip
+     flibs="-larpack "
+     flibsf="-larpack "
+-    mkll="$MKL_HOME/lib/32"
++    mkll="$MKL_HOME/mkl/lib/32"
+     mkl_processor="32"
+     mkl_procstring="ia32"
+     mklinterfacelayer='libmkl_intel.a'
+     if [ "$x86_64" = 'yes' ]; then
+-        if [ -d "$MKL_HOME/lib/em64t" ]; then
+-            mkll="$MKL_HOME/lib/em64t"
++        if [ -d "$MKL_HOME/mkl/lib/em64t" ]; then
++            mkll="$MKL_HOME/mkl/lib/em64t"
+             mkl_processor="em64t"
+             mkl_procstring="em64t"
+         else
+-            mkll="$MKL_HOME/lib/intel64"
++            mkll="$MKL_HOME/mkl/lib/intel64"
+             mkl_processor="intel64"
+             mkl_procstring="intel64"
+         fi
+@@ -2567,15 +2569,20 @@
+   else
+     # A NetCDF directory was specified. Check that library exists and compiles
+     printf "\tUsing external NetCDF in '$netcdf_dir'\n"
+-    netcdfinc="-I"$netcdf_dir"/include"
++    # Support separate NetCDF-Fortran installation with --with-netcdf-fort
++    if [ ! -e "$netcdf_fort_dir" ]; then
++      netcdf_fort_dir="$netcdf_fort_dir"
++    fi
++    printf "\tUsing external NetCDF-Fortran in '$netcdf_fort_dir'\n"
++    netcdfinc="-I"$netcdf_dir"/include -I"$netcdf_fort_dir"/include"
+     if [ "${netcdf_dir}" != '/usr' -a "$netcdf_dir" != '/usr/' ]; then
+         netcdf_flag="-L${netcdf_dir}/lib $netcdf_flag"
+     fi
+-    netcdf=$netcdf_dir"/include/netcdf.mod"
++    netcdf=$netcdf_fort_dir"/include/netcdf.mod"
+     if [ "$netcdfstatic" = 'no' ] ; then
+       if [ "${netcdf_dir}" != '/usr' -a "${netcdf_dir}" != '/usr/' ]; then
+           netcdfflagc="-L${netcdf_dir}/lib -lnetcdf"
+-          netcdfflagf="-L${netcdf_dir}/lib -lnetcdff -lnetcdf"
++          netcdfflagf="-L${netcdf_fort_dir}/lib -lnetcdff -lnetcdf"
+       else
+           netcdfflagc="-lnetcdf"
+           netcdfflagf="-lnetcdff -lnetcdf"
+@@ -2587,7 +2594,7 @@
+         echo "Error: '$netcdfflagc' not found."
+         exit 1
+       fi
+-      netcdfflagf=$netcdf_dir"/lib/libnetcdff.a"
++      netcdfflagf=$netcdf_fort_dir"/lib/libnetcdff.a"
+       if [ ! -e "$netcdfflagf" ]; then
+         echo "Error: '$netcdfflagf' not found."
+         exit 1
+@@ -2795,7 +2802,7 @@
+         if [ -n "$MKL_HOME" ]; then
+             echo "     MKL_HOME set to" "$MKL_HOME"
+             echo $(mkdir $AMBERHOME/include)
+-            echo $(cp $MKL_HOME/include/fftw/fftw3.f $AMBERHOME/include)
++            echo $(cp $MKL_HOME/mkl/include/fftw/fftw3.f $AMBERHOME/include)
+         fi
+         if [ "$intelmpi" = "yes" ]; then
+             pmemd_fpp_flags="$pmemd_fppflags -DFFTW_FFT -DMKL_FFTW_FFT "
