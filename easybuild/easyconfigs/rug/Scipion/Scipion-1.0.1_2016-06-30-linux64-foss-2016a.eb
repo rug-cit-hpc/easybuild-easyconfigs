@@ -29,7 +29,7 @@ builddependencies = [
 ]
 
 postinstallcmds = [
-#    'cp /software/installers/Scipion/imagej.tgz %(installdir)s/software/em/xmipp/external',
+    'cp /software/installers/Scipion/imagej.tgz %(installdir)s/software/em/xmipp/external',
     '%(installdir)s/scipion config',
     '%(installdir)s/scipion install chimera',
     '%(installdir)s/scipion install ctffind4',
