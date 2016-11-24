@@ -34,6 +34,7 @@ postinstallcmds = [
     '%(installdir)s/scipion install chimera',
     '%(installdir)s/scipion install ctffind4',
     '%(installdir)s/scipion install eman2.12',
+    '%(installdir)s/scipion install gEMpicker_v1.1',
     '%(installdir)s/scipion install motioncorr',
     '%(installdir)s/scipion install resmap',
     'mv %(installdir)s/software/em/relion-1.4 %(installdir)s/software/em/relion-1.4-orig',
