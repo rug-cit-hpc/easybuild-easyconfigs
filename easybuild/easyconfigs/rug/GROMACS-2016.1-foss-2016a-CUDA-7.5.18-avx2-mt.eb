@@ -14,11 +14,13 @@
 
 name = 'GROMACS'
 version = '2016.1'
-versionsuffix = '-CUDA-7.5.18-mt'
+versionsuffix = '-CUDA-7.5.18-avx2-mt'
 
 homepage = 'http://www.gromacs.org'
 description = """GROMACS is a versatile package to perform molecular dynamics,
- i.e. simulate the Newtonian equations of motion for systems with hundreds to millions of particles."""
+ i.e. simulate the Newtonian equations of motion for systems with hundreds to millions of particles.
+This version is using threads only, and has been compiled to support AVX2 instructions for 
+Intel Haswell and newer CPUs."""
 
 toolchain = {'name': 'foss', 'version': '2016a'}
 toolchainopts = {'openmp': True, 'usempi': False}
