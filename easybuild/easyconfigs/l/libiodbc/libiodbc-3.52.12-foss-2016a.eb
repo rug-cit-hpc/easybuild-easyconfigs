@@ -1,0 +1,20 @@
+easyblock = 'ConfigureMake'
+
+name = 'libiodbc'
+version = '3.52.12'
+
+description = """Independent Open DataBase Connectivity for Linux, MacOS X and Unix systems"""
+
+sources = [SOURCE_TAR_GZ]
+source_urls = ['http://sourceforge.net/projects/iodbc/files', 'download']
+
+homepage = 'http://www.iodbc.org'
+
+toolchain = {'name': 'foss', 'version': '2016a'}
+
+sanity_check_paths = {
+    'files': ['bin/iodbc-config', 'bin/iodbctest'],
+    'dirs': [],
+}
+
+moduleclass = 'lib'
