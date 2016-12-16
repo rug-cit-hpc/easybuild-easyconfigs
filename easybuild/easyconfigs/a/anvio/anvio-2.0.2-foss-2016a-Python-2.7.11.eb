@@ -1,0 +1,70 @@
+easyblock = 'Bundle'
+
+name = 'anvio'
+version = '2.0.2'
+versionsuffix = '-Python-%(pyver)s'
+
+homepage = 'http://merenlab.org/software/anvio/'
+description = """Anvi’o is an analysis and visualization platform for ‘omics data.
+It brings together many aspects of today’s cutting-edge genomic, metagenomic, 
+and metatranscriptomic analysis practices to address a wide array of needs."""
+
+toolchain = {'name': 'foss', 'version': '2016a'}
+
+# this is a bundle of Python packages
+exts_defaultclass = 'PythonPackage'
+
+dependencies = [
+    ('Python', '2.7.11'),
+    # Prodigal
+    ('HMMER', '3.1b2'),
+    ('SQLite', '3.13.0'),
+    ('GSL', '2.1'),
+    ('Cython', '0.24.1', '-Python-%(pyver)s'),
+    ('HDF5', '1.8.17'),
+]
+
+exts_list = [
+    ('bottle', '0.12.9', {
+        'source_urls': ['https://pypi.python.org/packages/source/b/bottle/'],
+    }),
+    ('pysam', '0.9.1', {
+        'source_urls': ['https://pypi.python.org/packages/source/p/pysam/'],
+    }),
+    ('ete2', '2.3.10', {
+        'source_urls': ['https://pypi.python.org/packages/source/e/ete2/'],
+    }),
+    ('scikit-learn', '0.17.1', {
+        'modulename': 'sklearn',
+        'source_urls': ['https://pypi.python.org/packages/source/s/scikit-learn/'],
+    }),
+    ('Django', '1.9.7', {
+        'source_urls': ['https://pypi.python.org/packages/source/d/Django/'],
+    }),
+    ('h5py', '2.6.0', {
+        'source_urls': ['https://pypi.python.org/packages/source/h/h5py/'],
+    }),
+    ('CherryPy', '6.0.2', {
+        'source_urls': ['https://pypi.python.org/packages/source/c/CherryPy/'],
+    }),
+    ('requests', '2.10.0', {
+        'source_urls': ['https://pypi.python.org/packages/source/r/requests/'],
+    }),
+    (name, version, {
+#        'source_urls': ['https://pypi.python.org/packages/source/a/anvio/'],
+        'source_urls': ['https://github.com/merenlab/anvio/archive/'],
+        'source_tmpl': 'v%(version)s.tar.gz',
+    }),
+]
+
+modextrapaths = {'PYTHONPATH': ['lib/python%(pyshortver)s/site-packages']}
+
+# specify that Bundle easyblock should run a full sanity check, rather than just trying to load the module
+full_sanity_check = True
+
+sanity_check_paths = {
+    'files': ['bin/anvi-interactive', 'bin/bottle.py', 'bin/cherryd', 'bin/django-admin', 'bin/ete', 'bin/f2py'],
+    'dirs': ['lib/python%(pyshortver)s/site-packages'],
+}
+
+moduleclass = 'bio'
