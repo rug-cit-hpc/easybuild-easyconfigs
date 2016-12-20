@@ -1,0 +1,25 @@
+easyblock = 'Tarball'
+
+name = 'DMD'
+version = '2.072.1'
+
+homepage = 'http://dlang.org/'
+description = """D is a systems programming language with C-like syntax and static typing.
+It combines efficiency, control and modeling power with safety and programmer productivity."""
+
+toolchain = {'name': 'foss', 'version': '2016a'}
+
+source_urls = ['http://downloads.dlang.org/releases/%(version_major)s.x/%(version)s/']
+sources = ['%(namelower)s.%(version)s.linux.tar.xz']
+
+sanity_check_paths = {
+    'files': ['linux/bin64/dmd'],
+    'dirs': ['linux/bin64', 'linux/lib64'],
+}
+
+modextrapaths = {
+    'PATH': 'linux/bin64',
+    'LD_LIBRARY_PATH': 'linux/lib64',
+}
+
+moduleclass = 'lang'
