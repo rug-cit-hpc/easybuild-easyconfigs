@@ -1,0 +1,32 @@
+easyblock = 'MakeCp'
+
+name = 'msmc'
+version = '1.0.0'
+versionsuffix = '-DMD-2.072.1'
+
+homepage = 'https://github.com/stschiff/msmc/'
+description = """This software implements MSMC, a method to infer population size and gene flow
+from multiple genome sequences (Schiffels and Durbin, 2014, Nature Genetics, or Preprint)."""
+
+toolchain = {'name': 'foss', 'version': '2016a'}
+
+source_urls = ['https://github.com/stschiff/msmc/archive/']
+sources = ['v%(version)s.tar.gz']
+
+builddependencies = [('DMD', '2.072.1')]
+
+dependencies = [('GSL', '2.1')]
+
+# Replace the path to GSL in the Makefile (third line)
+prebuildopts = "sed -i '3s/.*/GSL=${EBROOTGSL}\/lib\/libgsl.a ${EBROOTGSL}\/lib\/libgslcblas.a/' Makefile && "
+
+files_to_copy = [
+    (['build/msmc'], 'bin'),
+]
+
+sanity_check_paths = {
+    'files': ['bin/msmc'],
+    'dirs': [],
+}
+
+moduleclass = 'bio'
