@@ -1,0 +1,57 @@
+easyblock = 'Bundle'
+
+name = 'CheckM'
+version = '1.0.7'
+versionsuffix = '-Python-%(pyver)s'
+
+homepage = 'http://ecogenomics.github.io/CheckM/'
+description = """CheckM provides a set of tools for assessing the quality of genomes recovered from isolates,
+single cells, or metagenomes. It provides robust estimates of genome completeness and contamination by using
+collocated sets of genes that are ubiquitous and single-copy within a phylogenetic lineage.
+Assessment of genome quality can also be examined using plots depicting key genomic characteristics 
+(e.g., GC, coding density) which highlight sequences outside the expected distributions of a typical genome.
+CheckM also provides tools for identifying genome bins that are likely candidates for merging based on 
+marker set compatibility, similarity in genomic characteristics, and proximity within a reference genome tree."""
+
+toolchain = {'name': 'foss', 'version': '2016a'}
+
+# this is a bundle of Python packages
+exts_defaultclass = 'PythonPackage'
+
+dependencies = [
+    ('Python', '2.7.11'),
+    # Prodigal
+    # pplacer
+    ('HMMER', '3.1b2'),
+    ('matplotlib', '1.5.1', '-Python-%(pyver)s'),
+]
+
+exts_list = [
+    ('pysam', '0.9.1.4', {
+        'source_urls': ['https://pypi.python.org/packages/source/p/pysam/'],
+    }),
+    ('DendroPy', '4.1.0', {
+        'modulename': 'dendropy',
+        'source_urls': ['https://pypi.python.org/packages/source/d/DendroPy/'],
+    }),
+    ('ScreamingBackpack', '0.2.333', {
+        'modulename': 'screamingbackpack',
+        'source_urls': ['https://pypi.python.org/packages/source/s/ScreamingBackpack/'],
+    }),
+    ('checkm-genome', version, {
+        'modulename': 'checkm',
+        'source_urls': ['https://pypi.python.org/packages/source/c/checkm-genome/'],
+    }),
+]
+
+modextrapaths = {'PYTHONPATH': ['lib/python%(pyshortver)s/site-packages']}
+
+# specify that Bundle easyblock should run a full sanity check, rather than just trying to load the module
+full_sanity_check = True
+
+sanity_check_paths = {
+    'files': ['bin/checkm'],
+    'dirs': ['lib/python%(pyshortver)s/site-packages'],
+}
+
+moduleclass = 'bio'
