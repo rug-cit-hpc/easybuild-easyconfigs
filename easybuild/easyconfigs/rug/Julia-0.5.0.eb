@@ -1,0 +1,21 @@
+easyblock = 'Tarball'
+
+name = 'Julia'
+version = '0.5.0'
+
+homepage = 'http://julialang.org/'
+description = """Julia is a high-level, high-performance dynamic programming
+language for technical computing, with syntax that is familiar to users of
+other technical computing environments."""
+
+toolchain = {'name': 'dummy', 'version': ''}
+
+source_urls = ['https://julialang.s3.amazonaws.com/bin/linux/x64/%(version_major_minor)s/']
+sources = ['%(namelower)s-%(version)s-linux-x86_64.tar.gz']
+
+sanity_check_paths = {
+    'files': ["bin/julia"],
+    'dirs': [],
+}
+
+moduleclass = 'lang'
