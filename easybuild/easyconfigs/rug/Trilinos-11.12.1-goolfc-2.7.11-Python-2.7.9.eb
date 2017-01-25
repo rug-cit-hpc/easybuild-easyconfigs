@@ -1,0 +1,43 @@
+name = "Trilinos"
+version = "11.12.1"
+versionsuffix = "-Python-2.7.9"
+
+homepage = 'http://trilinos.sandia.gov/'
+description = """The Trilinos Project is an effort to develop algorithms and enabling technologies
+ within an object-oriented software framework for the solution of large-scale, complex multi-physics
+ engineering and scientific problems. A unique design feature of Trilinos is its focus on packages."""
+
+
+toolchain = {'name': 'goolfc', 'version': '2.7.11'}
+toolchainopts = {'usempi': True, 'pic': True, 'strict': True}
+openmp = False
+
+# Downloads are available from oldsite
+#source_urls = ['http://trilinos.sandia.gov/download/files/']
+source_urls = ['http://trilinos.org/oldsite/download/files/']
+sources = ['%s-%s-Source.tar.gz' % (name.lower(), version)]
+
+#patches = ['fix-parmetis.patch']
+
+# order matters!
+# ParMETIS needs to go after SCOTCH (because of include dirs)
+dependencies = [
+                ('Boost', '1.57.0', versionsuffix ),
+                ('SCOTCH', '6.0.0_esmumps'),
+                ('SuiteSparse', '4.4.3', '-ParMETIS-4.0.3'),
+                ('ParMETIS', '4.0.3')
+               ]
+
+builddependencies = [('CMake', '2.8.12.1', '', ('GCC','4.8.4'))]
+
+#configopts = '-DTrilinos_ENABLE_OpenMP=OFF'
+
+# Reduce memory usage
+parallel = 2
+
+# Kokkos build is broken with ictce, yields:
+# internal error: 0_1670 for packages/kokkos/LinAlg/Kokkos_DefaultArithmetic.hpp (line 827)
+# Should work with goolfc.
+# skip_exts = ["Kokkos", "Tpetra"]
+
+moduleclass = 'numlib'
