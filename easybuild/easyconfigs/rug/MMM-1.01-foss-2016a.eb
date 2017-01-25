@@ -1,0 +1,37 @@
+easyblock = 'CmdCp'
+
+name = 'MMM'
+version = '1.01'
+
+homepage = 'http://www.helsinki.fi/~mjxpirin/download.html'
+description = """MMM is a software package for analysing a linear mixed model with one random effect whose covariance
+structure can be freely specified by the user. It is written with large data sets in mind: applied to real data sets 
+where hundreds of thousands of predictors on over 20,000 individuals are tested one-by-one. Motivation for MMM came 
+from genome-wide association studies, but it can be used with other data as well. Written in C (GNU-C) and uses GSL 
+and, preferably, LAPACK libraries."""
+
+
+toolchain = {'name': 'foss', 'version': '2016a'}
+
+source_urls = ['http://www.helsinki.fi/~mjxpirin/']
+sources = ['%(name)s_%(version)s.tar.gz']
+
+dependencies = [('GSL', '2.1')]
+
+start_dir = ''
+
+cmds_map = [
+    ('.*', "$CC $CFLAGS -o MMM qfc.c MMM_1.01.c $LDFLAGS $LIBLAPACK -lm -lgsl -lgslcblas && $CC $CXXFLAGS -o generateR generateR.c $LDFLAGS $LIBLAPACK -lm -lgsl -lgslcblas"),
+#    ('.*', "$CC $CXXFLAGS -o MMM qfc.c MMM_1.01.c $LDFLAGS $LIBLAPACK -lm -lgsl -lgslcblas"),
+#    ('MMM_1.01.c', '$CC $CXXFLAGS -o MMM qfc.c MMM_1.01.c $LDFLAGS $LIBLAPACK -lm -lgsl -lgslcblas'),
+#    ('generateR.c', '$CC $CXXFLAGS -o generateR generateR.c $LDFLAGS $LIBLAPACK -lm -lgsl -lgslcblas'),
+]
+
+files_to_copy = [(['generateR', 'MMM'], 'bin')]
+
+sanity_check_paths = {
+    'files': ['bin/generateR', 'bin/MMM'],
+    'dirs': [],
+}
+
+moduleclass = 'bio'
