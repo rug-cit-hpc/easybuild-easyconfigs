@@ -1,3 +1,6 @@
+Fixes the problem described in this PR:
+https://github.com/BVLC/caffe/pull/4738
+
 From 36f5dd16b62cdc2ba1ce963a4521591b24b1087f Mon Sep 17 00:00:00 2001
 From: Rok Mandeljc <rok.mandeljc@fe.uni-lj.si>
 Date: Thu, 13 Aug 2015 14:28:50 +0200
