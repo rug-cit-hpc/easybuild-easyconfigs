@@ -1,0 +1,25 @@
+From 36f5dd16b62cdc2ba1ce963a4521591b24b1087f Mon Sep 17 00:00:00 2001
+From: Rok Mandeljc <rok.mandeljc@fe.uni-lj.si>
+Date: Thu, 13 Aug 2015 14:28:50 +0200
+Subject: [PATCH] Matlab: CMakeLists.txt: install all Matlab files
+
+The current install rules appear to be a left-over of the old Matlab
+bindings; consequently, they install the .mex file in incorrect
+location, and fail to install any .m file at all.
+---
+ matlab/CMakeLists.txt | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/matlab/CMakeLists.txt b/matlab/CMakeLists.txt
+index f420df8..2bdaf3f 100644
+--- a/matlab/CMakeLists.txt
++++ b/matlab/CMakeLists.txt
+@@ -67,6 +67,6 @@ elseif(build_using MATCHES "Octave")
+ endif()
+ 
+ # ---[ Install
+-file(GLOB mfiles caffe/*.m)
+-install(FILES ${mfiles} ${Matlab_caffe_mex} DESTINATION matlab)
++install(FILES ${Matlab_caffe_mex} DESTINATION matlab/+caffe/private)
+ 
++install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/ DESTINATION matlab/ FILES_MATCHING PATTERN "*.m")
