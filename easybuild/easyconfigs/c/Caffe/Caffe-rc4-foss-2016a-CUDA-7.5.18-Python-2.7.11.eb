@@ -42,7 +42,9 @@ dependencies = [
     ('cuDNN', '5.0', '-CUDA-%s' % cudaversion, True),
 ]
 
-configopts = '-DBLAS=open -DBUILD_matlab=ON -DMatlab_DIR=$EBROOTMATLAB -DCUDA_ARCH_NAME=Kepler'
+#configopts = '-DBLAS=open -DBUILD_matlab=ON -DMatlab_DIR=$EBROOTMATLAB -DCUDA_ARCH_NAME=Kepler'
+configopts = '-DBLAS=open -DBUILD_matlab=ON -DMatlab_DIR=$EBROOTMATLAB -DCUDA_ARCH_NAME=Manual -DCUDA_ARCH_BIN="20 21(20) 30 35 50"'
+#-DCUDA_ARCH_PTX="20 21(20) 30 35 50"'
 
 modextrapaths = {
     'PYTHONPATH': ['python'],
