@@ -1,0 +1,32 @@
+# This file is an EasyBuild reciPY as per https://github.com/hpcugent/easybuild
+
+name = 'arlecore'
+version = '3.5.2'
+
+easyblock = 'PackedBinary'
+
+homepage = 'http://cmpg.unibe.ch/software/arlequin35/Arlequin35.html'
+description = """
+Arlequin is the French translation of "Arlecchino", a famous character of the Italian 
+"Commedia dell'Arte". As a character he has many aspects, but he has the ability to switch
+among them very easily according to its needs and to necessities. This polymorphic ability
+is symbolized by his colorful costume, from which the Arlequin icon was designed.
+"""
+
+toolchain = {'name': 'dummy', 'version': 'dummy'}
+
+source_urls = [('http://cmpg.unibe.ch/software/arlequin35/linux/')]
+sources = ['arlecore_linux.zip']
+
+checksums = [('md5', '347a589fc609f359eb61557a2e8ceb2f')]
+
+postinstallcmds = [
+	'chmod a+rx %(installdir)s/arlecore3522_64bit %(installdir)s/LaunchArlecore.sh',
+]
+
+sanity_check_paths = {
+    'files': ['LaunchArlecore.sh','arlecore3522_64bit'],
+    'dirs': ['Rfunctions'],
+}
+
+moduleclass = 'bio'
