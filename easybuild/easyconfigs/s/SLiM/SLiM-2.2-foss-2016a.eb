@@ -1,0 +1,34 @@
+# This file is an EasyBuild reciPY as per https://github.com/hpcugent/easybuild
+
+name = 'SLiM'
+version = '2.2'
+
+easyblock = 'MakeCp'
+
+homepage = 'https://messerlab.org/slim/'
+description = """SLiM is an evolutionary simulation framework that combines a powerful
+engine for population genetic simulations with the capability of modeling arbitrarily
+complex evolutionary scenarios.
+"""
+
+toolchain = {'name': 'foss', 'version': '2016a'}
+
+checksums = [('md5', 'e98ccc9bcc23342343deabe776b33bf8')]
+
+sources = ['%(name)s.zip']
+source_urls = ['http://benhaller.com/slim/']
+
+files_to_copy = ['bin']
+
+postinstallcmds = [
+	'chmod a+rx %(installdir)s/bin/eidos %(installdir)s/bin/slim',
+]
+
+parallel = 1
+
+sanity_check_paths = {
+    'files': ['bin/eidos','bin/slim'],
+    'dirs': ['bin'],
+}
+
+moduleclass = 'bio'
