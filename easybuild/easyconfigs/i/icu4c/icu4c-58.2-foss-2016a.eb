@@ -1,0 +1,23 @@
+easyblock = 'ConfigureMake'
+
+name = 'icu4c'
+version = '58.2'
+
+homepage = 'http://site.icu-project.org/'
+description = """ICU is a mature, widely used set of C/C++ and Java libraries providing Unicode and Globalization
+support for software applications. ICU is widely portable and gives applications the same results on all platforms and 
+between C/C++ and Java software."""
+
+toolchain = {'name': 'foss', 'version': '2016a'}
+
+source_urls = [('http://sourceforge.net/projects/icu/files', 'download')]
+sources = ['%(namelower)s4c-%(version_major)s_%(version_minor)s-src.tgz']
+
+start_dir = "source"
+
+sanity_check_paths = {
+    'files': ['bin/icu-config', 'bin/icuinfo'],
+    'dirs': []
+}
+
+moduleclass = 'lib'
