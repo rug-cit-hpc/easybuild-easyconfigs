@@ -25,7 +25,7 @@ dependencies = [
     ('cURL', '7.47.0'),  # for RCurl
     ('libxml2', '2.9.3'),  # for XML
     ('GDAL', '2.0.2'),  # for rgdal
-    ('PROJ', '4.9.2'), # for rgdal
+    ('PROJ', '4.9.2'),  # for rgdal
     ('GMP', '6.1.0'),  # for igraph
 ]
 
@@ -443,6 +443,7 @@ exts_list = [
     ('geepack', '1.2-0.1', ext_options),
     ('lubridate', '1.5.6', ext_options),
     ('biom', '0.3.12', ext_options),
+    ('pim', '2.0.0.2', ext_options),
 ]
 
 moduleclass = 'lang'
