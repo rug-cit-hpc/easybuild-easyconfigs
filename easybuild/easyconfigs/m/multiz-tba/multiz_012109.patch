@@ -1,0 +1,39 @@
+--- ./libs/nvmatrix.cuh	2013-05-06 21:08:19.000000000 +0200
++++ ./libs/nvmatrix.cuh	2017-06-01 23:23:11.000000000 +0200
+@@ -36,7 +36,9 @@
+ #include <cublas.h>
+ #include <cuda.h>
+ #include <curand.h>
+-#include <cutil_inline.h>
++
++#include "cutil_inline.h"
++
+ #include <time.h>
+ #include <curand_kernel.h>
+ 
+--- ./libs/nvmatrix_operators.cuh	2013-05-06 21:08:19.000000000 +0200
++++ ./libs/nvmatrix_operators.cuh	2017-06-01 23:23:32.000000000 +0200
+@@ -27,7 +27,7 @@
+ #ifndef NVMATRIX_OPERATORS_CUH
+ #define	NVMATRIX_OPERATORS_CUH
+ 
+-#include <cutil_inline.h>
++#include "cutil_inline.h"
+ 
+ class NVMatrixOps {
+ public:
+--- ./libs/cutil_inline.h	1970-01-01 01:00:00.000000000 +0100
++++ ./libs/cutil_inline.h	2017-06-01 23:24:43.000000000 +0200
+@@ -0,0 +1,12 @@
++/* 
++   Dummy Includes for cutil_inline.h
++   Wei LI <kuantkid <at> gmail <dot> com>
++ */
++#include <helper_cuda.h>
++#include <helper_cuda_gl.h>
++#include <helper_functions.h>
++#include <helper_timer.h>
++
++#define cutilCheckMsg(a) getLastCudaError(a)
++#define cutGetMaxGflopsDeviceId() gpuGetMaxGflopsDeviceId()
++

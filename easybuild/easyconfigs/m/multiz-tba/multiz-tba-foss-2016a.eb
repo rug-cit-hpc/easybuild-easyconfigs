@@ -1,0 +1,48 @@
+easyblock = 'MakeCp'
+
+name = 'multiz-tba'
+version = '012109'
+
+homepage = 'https://www.bx.psu.edu/miller_lab/'
+description = """
+TBA, or the Threaded-Blockset Aligner, is a local multiple sequence alignment tool that
+differs somewhat from a global sequence aligner. TBA is in fact a suite of tools, not just
+one single executable file. While TBA can be used to align “vanilla” sequences from different
+species (i.e. one FASTA sequence entry per species), it can also handle more complex
+scenarios such as 1) aligning sub-sequences that originate from particular chromosomes
+of genome assemblies, or 2) situations where any species’ sequence might be provided
+in more than one FASTA sequence entry. The latter might occur, for example, if there
+is a syntenic break in one of the species being analyzed or your sequence is a series of
+unassembled contigs. With TBA, there is no need to artificially fuse these multiple sequences
+together (i.e. with a rung of N’s between the contigs).
+"""
+
+toolchain = {'name': 'foss', 'version': '2016a'}
+
+sources = ['%(name)s.%(version)s.tar.gz']
+source_urls = ['https://www.bx.psu.edu/miller_lab/dist/']
+
+builddependencies = [
+    ('CMake', '3.8.0'),
+]
+
+dependencies = [
+    ('CUDA', '8.0.61', '', True),
+]
+
+patches = [
+    'multiz_012109.patch',
+]
+
+preinstallcmds = ["make all"]
+
+
+files_to_copy = [(["*"], "build"), (["*"], "doc"), "README", "test_dropc", "test_dropc_bit"]
+
+
+sanity_check_paths = {
+    'files': ['build/'],
+    'dirs': [],
+}
+
+moduleclass = 'bio'
