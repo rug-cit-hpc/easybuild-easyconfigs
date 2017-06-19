@@ -1,0 +1,73 @@
+easyblock = 'Tarball'
+
+name = 'Scipion'
+version = '1.1_2017-06-14'
+
+homepage = 'https://github.com/biocompwebs/scipion'
+description = """Scipion is an image processing framework to obtain 3D models of macromolecular complexes using
+ Electron Microscopy (3DEM)."""
+
+toolchain = {'name': 'foss', 'version': '2016a'}
+
+# download via http://scipion.cnb.csic.es/m/download_form/
+# http://scipion.cnb.csic.es/m/static/install/scipion_v1.0.1_2016-06-30_linux64.tgz
+#sources = ['%(namelower)s_v%(version)s_2016-02-20_linux64.tgz']
+#source_urls = ['http://scipion.cnb.csic.es/m/static/install/']
+sources = ['%(namelower)s_v%(version)s_linux64.tgz']
+
+#source_urls = ['https://github.com/I2PC/%(namelower)s/archive/']
+#sources = ['v%(version)s.tar.gz']
+
+#patches = [('hosts.conf', 'scipion/config'), ('scipion.conf', 'scipion/config'), ('protocols.conf', 'scipion/config')]
+patches = [('hosts.conf', 'config'), ('scipion.conf', 'config'), ('protocols.conf', 'config')]
+
+dependencies = [
+    ('RELION', '2.0.3', '-CUDA-7.5.18'),
+#    ('git', '2.8.0'),
+    ('GSL', '2.1'),
+#    ('Java', '1.8.0_74', '', ('dummy', 'dummy'))
+]
+
+builddependencies = [
+    ('CMake', '3.8.0'),
+#    ('Python', '2.7.11'),
+]
+
+postinstallcmds = [
+    '%(installdir)s/scipion config',
+    '%(installdir)s/scipion install -j 2',
+    '%(installdir)s/scipion install chimera --no-xmipp',
+    '%(installdir)s/scipion install ctffind4 --no-xmipp',
+    '%(installdir)s/scipion install eman-2.12 --no-xmipp',
+    '%(installdir)s/scipion install gEMpicker --no-xmipp',
+    '%(installdir)s/scipion install motioncorr --no-xmipp',
+
+    '%(installdir)s/scipion install Gautomatch --no-xmipp',
+    '%(installdir)s/scipion install Gctf --no-xmipp',
+    '%(installdir)s/scipion install bsoft --no-xmipp',
+    '%(installdir)s/scipion install cryoem --no-xmipp',
+    '%(installdir)s/scipion install ctffind --no-xmipp',
+    '%(installdir)s/scipion install dogpicker --no-xmipp',
+    '%(installdir)s/scipion install ethan --no-xmipp',
+    '%(installdir)s/scipion install frealign --no-xmipp',
+    '%(installdir)s/scipion install localrec --no-xmipp',
+    '%(installdir)s/scipion install mag_distortion --no-xmipp',
+    '%(installdir)s/scipion install motioncor2 --no-xmipp',
+    '%(installdir)s/scipion install nma --no-xmipp',
+    '%(installdir)s/scipion install resmap --no-xmipp',
+    '%(installdir)s/scipion install simple --no-xmipp',
+    '%(installdir)s/scipion install spider --no-xmipp',
+    '%(installdir)s/scipion install summovie --no-xmipp',
+    '%(installdir)s/scipion install unblur --no-xmipp',
+
+    'ln -s $EBROOTRELION %(installdir)s/software/em/relion-2.0'
+]
+
+sanity_check_paths = {
+    'files': ['scipion'],
+    'dirs': ['config', 'data', 'install', 'pyworkflow', 'scripts', 'software'],
+}
+
+modextrapaths = {'PATH':''}
+
+moduleclass = 'vis'
