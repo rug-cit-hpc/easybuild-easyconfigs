@@ -11,14 +11,8 @@ toolchain = {'name': 'foss', 'version': '2016a'}
 
 # download via http://scipion.cnb.csic.es/m/download_form/
 # http://scipion.cnb.csic.es/m/static/install/scipion_v1.0.1_2016-06-30_linux64.tgz
-#sources = ['%(namelower)s_v%(version)s_2016-02-20_linux64.tgz']
-#source_urls = ['http://scipion.cnb.csic.es/m/static/install/']
 sources = ['%(namelower)s_v%(version)s_linux64.tgz']
 
-#source_urls = ['https://github.com/I2PC/%(namelower)s/archive/']
-#sources = ['v%(version)s.tar.gz']
-
-#patches = [('hosts.conf', 'scipion/config'), ('scipion.conf', 'scipion/config'), ('protocols.conf', 'scipion/config')]
 patches = [('hosts.conf', 'config'), ('scipion.conf', 'config'), ('protocols.conf', 'config')]
 
 dependencies = [
@@ -60,7 +54,10 @@ postinstallcmds = [
     '%(installdir)s/scipion install summovie --no-xmipp',
     '%(installdir)s/scipion install unblur --no-xmipp',
 
-    'ln -s $EBROOTRELION %(installdir)s/software/em/relion-2.0'
+    'ln -s $EBROOTRELION %(installdir)s/software/em/relion-2.0',
+
+    # Bugfix:
+    'sed -i 's/imgh.convert(tuple(\[frame-1, movieName\]), frameName)/imgh.convert((frame, movieName), frameName)/' %(installdir)s/pyworkflow/em/packages/xmipp3/protocol_extract_particles_movies.py',
 ]
 
 sanity_check_paths = {
