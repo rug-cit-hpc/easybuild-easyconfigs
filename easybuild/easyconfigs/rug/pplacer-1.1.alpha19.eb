@@ -11,12 +11,12 @@ description = """Pplacer places query sequences on a fixed reference phylogeneti
 toolchain = {'name': 'dummy', 'version': 'dummy'}
 
 source_urls = [
-    'https://github.com/matsen/pplacer/releases/download/%(version)s',
+    'https://github.com/matsen/pplacer/releases/download/v%(version)s',
 #    'https://github.com/matsen/pplacer/archive/',
 #    'https://github.com/matsen/pplacer-opam-repository/archive/',
 ]
 sources = [
-    '%(namelower)s-linux-%(version)s.zip',
+    '%(namelower)s-linux-v%(version)s.zip',
 #    'v%(version)s.tar.gz',
 #    'ba5e766.tar.gz',  # pplacer-opam-repository (20151002)
 ]
