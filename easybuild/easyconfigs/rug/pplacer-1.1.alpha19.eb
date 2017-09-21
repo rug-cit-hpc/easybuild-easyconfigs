@@ -37,6 +37,15 @@ sources = [
 #]
 
 # parallel build tends to break
-parallel = 1
+#parallel = 1
+
+sanity_check_paths = {
+    'files': ['guppy', 'pplacer', 'rppr'],
+    'dirs': ['scripts'],
+}
+
+modextrapaths = {
+    'PATH': ['', 'scripts'],
+}
 
 moduleclass = 'bio'
