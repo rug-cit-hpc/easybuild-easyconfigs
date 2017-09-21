@@ -24,13 +24,14 @@ dependencies = [
     ('pplacer', '1.1.alpha19', '', ('dummy', '')),
     ('HMMER', '3.1b2'),
     ('matplotlib', '1.5.3', '-Python-%(pyver)s'),
+    ('XZ', '5.2.2'),
 ]
 
 exts_list = [
-    ('pysam', '0.9.1.4', {
+    ('pysam', '0.12.0.1', {
         'source_urls': ['https://pypi.python.org/packages/source/p/pysam/'],
     }),
-    ('DendroPy', '4.1.0', {
+    ('DendroPy', '4.3.0', {
         'modulename': 'dendropy',
         'source_urls': ['https://pypi.python.org/packages/source/d/DendroPy/'],
     }),
