@@ -25,6 +25,9 @@ dependencies = [
     ('HMMER', '3.1b2'),
     ('matplotlib', '1.5.3', '-Python-%(pyver)s'),
     ('XZ', '5.2.2'),
+    ('cURL', '7.49.1'),
+    ('bzip2', '1.0.6'),
+    ('zlib', '1.2.8'),
 ]
 
 exts_list = [
