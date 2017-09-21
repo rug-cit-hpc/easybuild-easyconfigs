@@ -20,8 +20,8 @@ exts_defaultclass = 'PythonPackage'
 
 dependencies = [
     ('Python', '2.7.12'),
-    ('prodigal', '2.6.3'),
-    ('pplacer', '1.1.alph19'),
+    ('prodigal', '2.6.3', '', ('GCC', '4.9.3-2.25')),
+    ('pplacer', '1.1.alpha19', '', ('dummy', '')),
     ('HMMER', '3.1b2'),
     ('matplotlib', '1.5.3', '-Python-%(pyver)s'),
 ]
