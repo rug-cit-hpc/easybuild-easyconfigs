@@ -1,0 +1,31 @@
+easyblock = 'Tarball'
+
+name = 'V-REP'
+version = '3.4.0'
+
+homepage = 'http://www.coppeliarobotics.com/index.html'
+description = """The robot simulator V-REP, with integrated development 
+environment, is based on a distributed control architecture: each object/model 
+can be individually controlled via an embedded script, a plugin, a ROS node, 
+a remote API client, or a custom solution."""
+
+toolchain = {'name': 'dummy', 'version': 'dummy'}
+
+source_urls = ['http://coppeliarobotics.com/files/']
+sources = ['%s_PRO_EDU_V%s_Linux.tar.gz' % (name, version.replace('.', '_'))]
+checksums = ['2d8e1c178632106dfec3bcd66a31a9cfc57a3ba16c8342fd6ad9c4df8156e3ed']
+
+postinstallcmds = [ 'chmod +x %(installdir)s/*.sh' ]
+
+
+modextrapaths = {
+    'PATH': '',
+    'LD_LIBRARY_PATH': '',
+}
+
+sanity_check_paths = {
+    'files': ['vrep'],
+    'dirs': [],
+}
+
+moduleclass = 'data'
