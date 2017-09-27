@@ -20,6 +20,7 @@ dependencies = [
 #    ('git', '2.8.0'),
     ('GSL', '2.1'),
 #    ('Java', '1.8.0_74', '', ('dummy', 'dummy'))
+    ('LibTIFF', '3.9.7-foss-2016a'),
 ]
 
 builddependencies = [
