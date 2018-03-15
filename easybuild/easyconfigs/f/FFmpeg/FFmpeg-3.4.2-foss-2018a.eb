@@ -13,18 +13,13 @@ sources = [SOURCELOWER_TAR_BZ2]
 checksums = ['eb0370bf223809b9ebb359fed5318f826ac038ce77933b3afd55ab1a0a21785a']
 
 dependencies = [
-    ('NASM', '2.13.02'),
+    ('NASM', '2.13.03'),
     ('zlib', '1.2.11'),
     ('bzip2', '1.0.6'),
     ('x264', '20180128'),
     ('LAME', '3.100'),
     ('x265', '2.6'),
     ('X11', '20180131'),
-]
-
-builddependencies = [
-    # use same binutils version that was used when building GCCcore toolchain
-    ('binutils', '2.28'),
 ]
 
 configopts = '--enable-pic --enable-shared --enable-gpl --enable-version3 --enable-nonfree --cc="$CC" --cxx="$CXX" '
