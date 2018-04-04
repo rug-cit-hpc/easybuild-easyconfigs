@@ -1,0 +1,35 @@
+easyblock = 'MakeCp'
+
+name = 'FreeImage'
+version = '3.17.0'
+
+homepage = 'http://freeimage.sourceforge.net/'
+description = """FreeImage is an Open Source library project for developers who would like to support popular graphics
+image formats like PNG, BMP, JPEG, TIFF and others as needed by today's multimedia applications.
+FreeImage is easy to use, fast, multithreading safe, compatible with all 32-bit or 64-bit versions of Windows,
+and cross-platform (works both with Linux and Mac OS X)."""
+
+# Note: The version of LibRaw that comes with this version of FreeImage does not compile with GCC >= 6.
+toolchain = {'name': 'foss', 'version': '2016a'}
+
+source_urls = [SOURCEFORGE_SOURCE]
+sources = ['%%(name)s%s.zip' % version.replace('.', '')]
+
+files_to_copy = [
+    (['Dist/libfreeimage.a', 'Dist/libfreeimage-%(version)s.so'], 'lib'),
+    (['Dist/FreeImage.h'], 'include'),
+]
+
+postinstallcmds = [
+    'ln -s lib%(namelower)s-%(version)s.so %(installdir)s/lib/lib%(namelower)s.so.%(version_major)s',
+    'ln -s lib%(namelower)s.so.%(version_major)s %(installdir)s/lib/lib%(namelower)s.so',
+]
+
+parallel = 1
+
+sanity_check_paths = {
+    'files': ['lib/libfreeimage.a', 'lib/libfreeimage.so', 'include/FreeImage.h'],
+    'dirs': [],
+}
+
+moduleclass = 'lib'
