@@ -18,13 +18,19 @@ toolchain = {'name': 'foss', 'version': '2018a'}
 # official release might look like this:
 #source_urls = ['https://github.com/PacificBiosciences/GenomicConsensus/archive/']
 sources = [realver + '.tar.gz']
-checksums = ['c3c8f420a7fe0b7968157849d23f9581e0538db92f8ead15d6d4282a65027275']
+checksums = [
+    'f04b1274129d67101dbeba351145bee12b5843a45d1e2d574aa7e3c7b2fa7f8e',  # 3.1.1.tar.gz
+    '0bd3c62d8330b0f941671d50af77117d0dc78674e742eb8b872e0233aeaea5dd',  # dependencies.patch
+]
 
 dependencies = [
     ('Python', '2.7.14'),
     ('ConsensusCore', '1.0.2-5fe2719', versionsuffix),
 ]
 
+patches = [
+    'dependencies.patch',
+]
 
 buildcmd = " build && cp -r ./bin %(installdir)s "
 

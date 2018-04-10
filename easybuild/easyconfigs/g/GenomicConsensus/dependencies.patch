@@ -1,0 +1,14 @@
+# ConsensusCore check fails but when loaded everything is fine ...
+# requires unittest2 for h5py to load
+--- GenomicConsensus/setup.py	2018-04-10 07:32:33.693255177 -0400
++++ GenomicConsensus/setup.py	2018-04-10 07:28:01.480683200 -0400
+@@ -32,7 +32,8 @@
+         'pbcommand >= 0.3.20',
+         'numpy >= 1.6.0',
+         'h5py >= 2.0.1',
+-        'ConsensusCore >= 1.0.1'
++        'unittest2 >= 1.1.0',
++        #'ConsensusCore >= 1.0.1'
+         # , 'ConsensusCore2 >= 0.9',
+         ]
+     )
