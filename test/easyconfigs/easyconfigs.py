@@ -1,5 +1,5 @@
 ##
-# Copyright 2013 Ghent University
+# Copyright 2013-2018 Ghent University
 #
 # This file is part of EasyBuild,
 # originally created by the HPC team of Ghent University (http://ugent.be/hpc/en),
@@ -8,7 +8,7 @@
 # Flemish Research Foundation (FWO) (http://www.fwo.be/en)
 # and the Department of Economy, Science and Innovation (EWI) (http://www.ewi-vlaanderen.be/en).
 #
-# http://github.com/hpcugent/easybuild
+# https://github.com/easybuilders/easybuild
 #
 # EasyBuild is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -44,11 +44,14 @@ import easybuild.main as main
 import easybuild.tools.options as eboptions
 from easybuild.easyblocks.generic.configuremake import ConfigureMake
 from easybuild.framework.easyblock import EasyBlock
+from easybuild.framework.easyconfig.default import DEFAULT_CONFIG
+from easybuild.framework.easyconfig.format.format import DEPENDENCY_PARAMETERS
 from easybuild.framework.easyconfig.easyconfig import EasyConfig
-from easybuild.framework.easyconfig.easyconfig import get_easyblock_class
-from easybuild.framework.easyconfig.parser import fetch_parameters_from_easyconfig
+from easybuild.framework.easyconfig.easyconfig import get_easyblock_class, letter_dir_for, resolve_template
+from easybuild.framework.easyconfig.parser import EasyConfigParser, fetch_parameters_from_easyconfig
 from easybuild.framework.easyconfig.tools import dep_graph, get_paths_for, process_easyconfig
 from easybuild.tools import config
+from easybuild.tools.build_log import EasyBuildError
 from easybuild.tools.config import build_option
 from easybuild.tools.filetools import write_file
 from easybuild.tools.module_naming_scheme import GENERAL_CLASS
@@ -63,6 +66,7 @@ from easybuild.tools.options import set_tmpdir
 # and that bigger tests (building dep graph, testing for conflicts, ...) can be run as well
 # other than optimizing for time, this also helps to get around problems like http://bugs.python.org/issue10949
 single_tests_ok = True
+
 
 class EasyConfigTest(TestCase):
     """Baseclass for easyconfig testcases."""
@@ -149,6 +153,100 @@ class EasyConfigTest(TestCase):
         self.assertFalse(check_conflicts(self.ordered_specs, modules_tool(), check_inter_ec_conflicts=False),
                          "No conflicts detected")
 
+    def test_dep_versions_per_toolchain_generation(self):
+        """
+        Check whether there's only one dependency version per toolchain generation actively used.
+        This is enforced to try and limit the chance of running into conflicts when multiple modules built with
+        the same toolchain are loaded together.
+        """
+        if self.ordered_specs is None:
+            self.process_all_easyconfigs()
+
+        def get_deps_for(ec):
+            """Get list of (direct) dependencies for specified easyconfig."""
+            deps = []
+            for dep in ec['ec']['dependencies']:
+                dep_mod_name = dep['full_mod_name']
+                deps.append((dep['name'], dep['version'], dep['versionsuffix'], dep_mod_name))
+                res = [x for x in self.ordered_specs if x['full_mod_name'] == dep_mod_name]
+                if len(res) == 1:
+                    deps.extend(get_deps_for(res[0]))
+                else:
+                    raise EasyBuildError("Failed to find %s in ordered list of easyconfigs", dep_mod_name)
+
+            return deps
+
+        def check_dep_vars(dep, dep_vars):
+            """Check whether available variants of a particular dependency are acceptable or not."""
+
+            # 'guilty' until proven 'innocent'
+            res = False
+
+            # filter out binutils with empty versionsuffix which is used to build toolchain compiler
+            if dep == 'binutils':
+                empty_vsuff_vars = [v for v in dep_vars.keys() if v.endswith('versionsuffix: ')]
+                if len(empty_vsuff_vars) == 1:
+                    dep_vars = [(k, v) for (k, v) in dep_vars.items() if k != empty_vsuff_vars[0]]
+            # filter out FFTW and imkl with -serial versionsuffix which are used in non-MPI subtoolchains
+            elif dep in ['FFTW', 'imkl']:
+                serial_vsuff_vars = [v for v in dep_vars.keys() if v.endswith('versionsuffix: -serial')]
+                if len(serial_vsuff_vars) == 1:
+                    dep_vars = [(k, v) for (k, v) in dep_vars.items() if k != serial_vsuff_vars[0]]
+
+            # only single variant is always OK
+            if len(dep_vars) == 1:
+                res = True
+
+            elif len(dep_vars) == 2 and dep in ['Python', 'Tkinter']:
+                # for Python & Tkinter, it's OK to have on 2.x and one 3.x version
+                v2_dep_vars = [x for x in dep_vars.keys() if x.startswith('version: 2.')]
+                v3_dep_vars = [x for x in dep_vars.keys() if x.startswith('version: 3.')]
+                if len(v2_dep_vars) == 1 and len(v3_dep_vars) == 1:
+                    res = True
+
+            # two variants is OK if one is for Python 2.x and the other is for Python 3.x (based on versionsuffix)
+            elif len(dep_vars) == 2:
+                py2_dep_vars = [x for x in dep_vars.keys() if '; versionsuffix: -Python-2.' in x]
+                py3_dep_vars = [x for x in dep_vars.keys() if '; versionsuffix: -Python-3.' in x]
+                if len(py2_dep_vars) == 1 and len(py3_dep_vars) == 1:
+                    res = True
+
+            return res
+
+        # restrict to checking dependencies of easyconfigs using common toolchains (start with 2018a)
+        for pattern in ['201[89][ab]', '20[2-9][0-9][ab]']:
+            all_deps = {}
+            regex = re.compile('^.*-(?P<tc_gen>%s).*\.eb$' % pattern)
+
+            # collect variants for all dependencies of easyconfigs that use a toolchain that matches
+            for ec in self.ordered_specs:
+                ec_file = os.path.basename(ec['spec'])
+                res = regex.match(ec_file)
+                if res:
+                    tc_gen = res.group('tc_gen')
+                    all_deps_tc_gen = all_deps.setdefault(tc_gen, {})
+                    for dep_name, dep_ver, dep_versuff, dep_mod_name in get_deps_for(ec):
+                        dep_variants = all_deps_tc_gen.setdefault(dep_name, {})
+                        # a variant is defined by version + versionsuffix
+                        variant = "version: %s; versionsuffix: %s" % (dep_ver, dep_versuff)
+                        # keep track of which easyconfig this is a dependency
+                        dep_variants.setdefault(variant, set()).add(ec_file)
+
+            # check which dependencies have more than 1 variant
+            multi_dep_vars, multi_dep_vars_msg = [], ''
+            for tc_gen in sorted(all_deps.keys()):
+                for dep in sorted(all_deps[tc_gen].keys()):
+                    dep_vars = all_deps[tc_gen][dep]
+                    if not check_dep_vars(dep, dep_vars):
+                        multi_dep_vars.append(dep)
+                        multi_dep_vars_msg += "\nfound %s variants of '%s' dependency " % (len(dep_vars), dep)
+                        multi_dep_vars_msg += "in easyconfigs using '%s' toolchain generation\n* " % tc_gen
+                        multi_dep_vars_msg += '\n* '.join("%s as dep for %s" % v for v in sorted(dep_vars.items()))
+                        multi_dep_vars_msg += '\n'
+
+            error_msg = "No multi-variant deps found for '%s' easyconfigs:\n%s" % (regex.pattern, multi_dep_vars_msg)
+            self.assertFalse(multi_dep_vars, error_msg)
+
     def test_sanity_check_paths(self):
         """Make sure specified sanity check paths adher to the requirements."""
 
@@ -168,11 +266,11 @@ class EasyConfigTest(TestCase):
 
     def test_easyconfig_locations(self):
         """Make sure all easyconfigs files are in the right location."""
-        easyconfig_dirs_regex = re.compile(r'/easybuild/easyconfigs/[a-z]/[^/]+$')
+        easyconfig_dirs_regex = re.compile(r'/easybuild/easyconfigs/[0a-z]/[^/]+$')
         topdir = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
         for (dirpath, _, filenames) in os.walk(topdir):
-            # ignore git/svn dirs
-            if '/.git/' in dirpath or '/.svn/' in dirpath:
+            # ignore git/svn dirs & archived easyconfigs
+            if '/.git/' in dirpath or '/.svn/' in dirpath or '__archive__' in dirpath:
                 continue
             # check whether list of .eb files is non-empty
             easyconfig_files = [fn for fn in filenames if fn.endswith('eb')]
@@ -210,7 +308,7 @@ def template_easyconfig_test(self, spec):
     name, easyblock = fetch_parameters_from_easyconfig(ec.rawtxt, ['name', 'easyblock'])
 
     # make sure easyconfig file is in expected location
-    expected_subdir = os.path.join('easybuild', 'easyconfigs', name.lower()[0], name)
+    expected_subdir = os.path.join('easybuild', 'easyconfigs', letter_dir_for(name), name)
     subdir = os.path.join(*spec.split(os.path.sep)[-5:-1])
     fail_msg = "Easyconfig file %s not in expected subdirectory %s" % (spec, expected_subdir)
     self.assertEqual(expected_subdir, subdir, fail_msg)
@@ -232,6 +330,38 @@ def template_easyconfig_test(self, spec):
     # more sanity checks
     self.assertTrue(name, app.name)
     self.assertTrue(ec['version'], app.version)
+
+    # make sure that $root is not used, since it is not compatible with module files in Lua syntax
+    res = re.findall('.*\$root.*', ec.rawtxt, re.M)
+    error_msg = "Found use of '$root', not compatible with modules in Lua syntax, use '%%(installdir)s' instead: %s"
+    self.assertFalse(res, error_msg % res)
+
+    # make sure old GitHub urls for EasyBuild that include 'hpcugent' are no longer used
+    old_urls = [
+        'github.com/hpcugent/easybuild',
+        'hpcugent.github.com/easybuild',
+        'hpcugent.github.io/easybuild',
+    ]
+    for old_url in old_urls:
+        self.assertFalse(old_url in ec.rawtxt, "Old URL '%s' not found in %s" % (old_url, spec))
+
+    # make sure binutils is included as a build dep if toolchain is GCCcore
+    if ec['toolchain']['name'] == 'GCCcore':
+        # with 'Tarball' easyblock: only unpacking, no building; Eigen is also just a tarball
+        requires_binutils = ec['easyblock'] not in ['Tarball'] and ec['name'] not in ['Eigen']
+
+        # let's also exclude the very special case where the system GCC is used as GCCcore, and only apply this
+        # exception to the dependencies of binutils (since we should eventually build a new binutils with GCCcore)
+        if ec['toolchain']['version'] == 'system':
+            binutils_complete_dependencies = ['M4', 'Bison', 'flex', 'help2man', 'zlib', 'binutils']
+            requires_binutils &= bool(ec['name'] not in binutils_complete_dependencies)
+            
+        # if no sources/extensions/components are specified, it's just a bundle (nothing is being compiled)
+        requires_binutils &= bool(ec['sources'] or ec['exts_list'] or ec.get('components'))
+
+        if requires_binutils:
+            dep_names = [d['name'] for d in ec['builddependencies']]
+            self.assertTrue('binutils' in dep_names, "binutils is a build dep in %s: %s" % (spec, dep_names))
 
     # make sure all patch files are available
     specdir = os.path.dirname(spec)
@@ -258,7 +388,8 @@ def template_easyconfig_test(self, spec):
                     self.assertTrue(os.path.isfile(ext_patch_full), msg)
 
     # check whether all extra_options defined for used easyblock are defined
-    for key in app.extra_options():
+    extra_opts = app.extra_options()
+    for key in extra_opts:
         self.assertTrue(key in app.cfg)
 
     app.close_log()
@@ -269,7 +400,7 @@ def template_easyconfig_test(self, spec):
     os.close(handle)
 
     ec.dump(test_ecfile)
-    dumped_ec = EasyConfig(test_ecfile)
+    dumped_ec = EasyConfigParser(test_ecfile).get_config_dict()
     os.remove(test_ecfile)
 
     # inject dummy values for templates that are only known at a later stage
@@ -278,16 +409,58 @@ def template_easyconfig_test(self, spec):
         'installdir': '/dummy/installdir',
     }
     ec.template_values.update(dummy_template_values)
-    dumped_ec.template_values.update(dummy_template_values)
 
-    for key in sorted(ec._config):
-        self.assertEqual(ec[key], dumped_ec[key])
+    ec_dict = ec.parser.get_config_dict()
+    orig_toolchain = ec_dict['toolchain']
+    for key in ec_dict:
+        # skip parameters for which value is equal to default value
+        orig_val = ec_dict[key]
+        if key in DEFAULT_CONFIG and orig_val == DEFAULT_CONFIG[key][0]:
+            continue
+        if key in extra_opts and orig_val == extra_opts[key][0]:
+            continue
+        if key not in DEFAULT_CONFIG and key not in extra_opts:
+            continue
+
+        orig_val = resolve_template(ec_dict[key], ec.template_values)
+        dumped_val = resolve_template(dumped_ec[key], ec.template_values)
+
+        # take into account that dumped value for *dependencies may include hard-coded subtoolchains
+        # if no easyconfig was found for the dependency with the 'parent' toolchain,
+        # if may get resolved using a subtoolchain, which is then hardcoded in the dumped easyconfig
+        if key in DEPENDENCY_PARAMETERS:
+            # number of dependencies should remain the same
+            self.assertEqual(len(orig_val), len(dumped_val))
+            for orig_dep, dumped_dep in zip(orig_val, dumped_val):
+                # name/version should always match
+                self.assertEqual(orig_dep[:2], dumped_dep[:2])
+
+                # 3rd value is versionsuffix;
+                if len(dumped_dep) >= 3:
+                    # if no versionsuffix was specified in original dep spec, then dumped value should be empty string
+                    if len(orig_dep) >= 3:
+                        self.assertEqual(dumped_dep[2], orig_dep[2])
+                    else:
+                        self.assertEqual(dumped_dep[2], '')
+
+                # 4th value is toolchain spec
+                if len(dumped_dep) >= 4:
+                    if len(orig_dep) >= 4:
+                        self.assertEqual(dumped_dep[3], orig_dep[3])
+                    else:
+                        # if a subtoolchain is specifed (only) in the dumped easyconfig,
+                        # it should *not* be the same as the parent toolchain
+                        self.assertNotEqual(dumped_dep[3], (orig_toolchain['name'], orig_toolchain['version']))
+
+        else:
+            self.assertEqual(orig_val, dumped_val)
 
     # cache the parsed easyconfig, to avoid that it is parsed again
     self.parsed_easyconfigs.append(ecs[0])
 
     # test passed, so set back to True
     single_tests_ok = True and prev_single_tests_ok
+
 
 def suite():
     """Return all easyblock initialisation tests."""
@@ -296,6 +469,11 @@ def suite():
     easyconfigs_path = get_paths_for('easyconfigs')[0]
     cnt = 0
     for (subpath, _, specs) in os.walk(easyconfigs_path, topdown=True):
+
+        # ignore archived easyconfigs
+        if '__archive__' in subpath:
+            continue
+
         for spec in specs:
             if spec.endswith('.eb') and spec != 'TEMPLATE.eb':
                 cnt += 1

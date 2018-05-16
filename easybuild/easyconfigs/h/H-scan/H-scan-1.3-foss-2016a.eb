@@ -1,0 +1,31 @@
+easyblock = 'CmdCp'
+
+name = 'H-scan'
+version = '1.3'
+
+homepage = 'https://messerlab.org/resources/'
+description = """Selective H-scansweeps elevate levels of linkage disequilibrium (LD) over those
+observed in neutrally evolving regions and generate unusually long tracts of homozygosity
+around the adaptive site. """
+
+toolchain = {'name': 'foss', 'version': '2016a'}
+
+
+source_urls = ['https://dl.dropboxusercontent.com/u/77898333/']
+sources = ['H-scan.cpp']
+
+skipsteps = ['source']
+
+#start_dir = 'src'
+checksums = [('md5', '4801bde0f0e5ba2a93451285b58e8ba6')]
+
+cmds_map = [('H-scan.cpp', '$CXX $CXXFLAGS %%(source)s -o %(name)s')]
+
+files_to_copy = [(['H-scan'], 'bin')]
+
+sanity_check_paths = {
+    'files': ['bin/H-scan'],
+    'dirs': [],
+}
+
+moduleclass = 'bio'

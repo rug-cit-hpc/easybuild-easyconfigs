@@ -1,0 +1,34 @@
+# This file is an EasyBuild reciPY as per https://github.com/hpcugent/easybuild
+
+name = 'arlsumstat'
+version = '3.5.2'
+
+easyblock = 'PackedBinary'
+
+homepage = 'http://cmpg.unibe.ch/software/arlequin35/Arlequin35.html'
+description = """
+Arlequin is the French translation of "Arlecchino", a famous character of the Italian 
+"Commedia dell'Arte". As a character he has many aspects, but he has the ability to switch
+among them very easily according to its needs and to necessities. This polymorphic ability
+is symbolized by his colorful costume, from which the Arlequin icon was designed.
+"""
+
+toolchain = {'name': 'dummy', 'version': 'dummy'}
+
+
+source_urls = [('http://cmpg.unibe.ch/software/arlequin35/linux/')]
+sources = ['arlsumstat_linux.zip']
+
+checksums = [('md5', 'ce69a307ef9e9c1eded9cb9cca4b6d2c')]
+
+postinstallcmds = [
+    'chmod a+rx %(installdir)s/arlsumstat3522_64bit %(installdir)s/LaunchArlSumStat.sh',
+]
+
+sanity_check_paths = {
+    'files': ['arlsumstat3522_64bit','arl_run.ars', 'LaunchArlSumStat.sh'],
+    'dirs': [''],
+}
+
+moduleclass = 'bio'
+

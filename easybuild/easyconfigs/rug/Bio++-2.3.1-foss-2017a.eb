@@ -1,0 +1,46 @@
+easyblock = 'CMakeMake'
+
+name = 'Bio++'
+version = '2.3.1'
+
+homepage = 'http://biopp.univ-montp2.fr/wiki/index.php/Main_Page'
+description = """Bio++ is a set of C++ libraries for Bioinformatics, including sequence analysis, phylogenetics,
+molecular evolution and population genetics. Bio++ is Object Oriented and is designed to be both easy to use and 
+computer efficient. Bio++ intends to help programmers to write computer expensive programs, by providing them a
+set of re-usable tools."""
+
+toolchain = {'name': 'foss', 'version': '2017a'}
+
+# Download all tarballs from https://github.com/BioPP/
+#source_urls = ['https://github.com/BioPP/']
+sources = [
+    'bpp-core-%(version)s.tar.gz',
+    'bpp-seq-%(version)s.tar.gz',
+    'bpp-seq-omics-%(version)s.tar.gz',
+    'bpp-phyl-%(version)s.tar.gz',
+    'bpp-phyl-omics-%(version)s.tar.gz',
+    'bpp-popgen-%(version)s.tar.gz',
+]
+
+builddependencies = [
+    ('CMake', '3.8.1'),
+]
+
+preconfigopts = [
+    'cd %(builddir)s/bpp-core-%(version)s &&',
+    'cd %(builddir)s/bpp-seq-%(version)s &&',
+    'cd %(builddir)s/bpp-seq-omics-%(version)s &&',
+    'cd %(builddir)s/bpp-phyl-%(version)s &&',
+    'cd %(builddir)s/bpp-phyl-omics-%(version)s &&',
+    'cd %(builddir)s/bpp-popgen-%(version)s &&',
+]
+
+prebuildopts = preconfigopts
+preinstallopts = preconfigopts
+
+sanity_check_paths = {
+    'files': ['lib64/libbpp-%s.so' % x for x in ['core', 'seq', 'phyl', 'popgen', 'seq-omics', 'phyl-omics']],
+    'dirs': [],
+}
+
+moduleclass = 'bio'

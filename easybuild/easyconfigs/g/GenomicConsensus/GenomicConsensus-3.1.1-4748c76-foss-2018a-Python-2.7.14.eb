@@ -1,0 +1,47 @@
+easyblock = 'PythonPackage'
+
+name = 'GenomicConsensus'
+# commit version included
+version = '3.1.1-4748c76'
+versionsuffix = '-Python-%(pyver)s'
+
+realver = version.split('-')[0]
+
+homepage = 'https://github.com/PacificBiosciences/GenomicConsensus/'
+description = """The GenomicConsensus package provides the variantCaller tool, 
+which allows you to apply the Quiver or Arrow algorithm 
+to mapped PacBio reads to get consensus and variant calls."""
+
+toolchain = {'name': 'foss', 'version': '2018a'}
+
+# obtained the 4748c76 commit (3.1.1 branch), make a tarball and put it in sources...
+# official release might look like this:
+#source_urls = ['https://github.com/PacificBiosciences/GenomicConsensus/archive/']
+sources = [realver + '.tar.gz']
+checksums = [
+    'f04b1274129d67101dbeba351145bee12b5843a45d1e2d574aa7e3c7b2fa7f8e',  # 3.1.1.tar.gz
+    '0bd3c62d8330b0f941671d50af77117d0dc78674e742eb8b872e0233aeaea5dd',  # dependencies.patch
+]
+
+dependencies = [
+    ('Python', '2.7.14'),
+    ('ConsensusCore', '1.0.2-5fe2719', versionsuffix),
+]
+
+patches = [
+    'dependencies.patch',
+]
+
+buildcmd = " build && cp -r ./bin %(installdir)s "
+
+# circumvent sanity check for unknown module since binaries in /bin are used.
+options = {'modulename': 'numpy'}
+
+sanity_check_paths = {
+    'files': ['bin/quiver', 'bin/arrow'],
+    'dirs': ['lib/python%(pyshortver)s/site-packages/'],
+}
+
+
+
+moduleclass = 'bio'

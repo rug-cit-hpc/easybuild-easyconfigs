@@ -1,0 +1,37 @@
+easyblock = 'PythonPackage'
+
+name = 'ConsensusCore'
+version = '1.0.2-5fe2719'
+versionsuffix = '-Python-%(pyver)s'
+
+realver = version.split('-')[0]
+
+homepage = 'https://github.com/PacificBiosciences/ConsensusCore'
+description = """ConsensusCore is a library of C++ algorithms for PacBio multiple sequence consensus
+that powers Quiver (Python) and ConsensusTools (.NET)."""
+
+toolchain = {'name': 'foss', 'version': '2018a'}
+
+# obtained the 5fe2719 commit, make a tarball and put it in sources...
+# official release might look like this:
+#source_urls = ['https://github.com/PacificBiosciences/ConsensusCore/archive/']
+sources = [realver + '.tar.gz']
+checksums = ['efe398e5578fc6c3f0dd6c461b148fae24991ad4113c5f81928fc49701f5bc8c']
+
+dependencies = [
+    ('Python', '2.7.14'),
+    ('SWIG', '3.0.12', versionsuffix),
+    ('Boost', '1.66.0', versionsuffix),
+]
+
+skipsteps = ['build']
+installopts = [' --boost=$EBROOTBOOST ']
+
+options = {'modulename': 'ConsensusCore'}
+
+sanity_check_paths = {
+    'files': [],
+    'dirs': ['lib/python%(pyshortver)s/site-packages/'],
+}
+
+moduleclass = 'lib'

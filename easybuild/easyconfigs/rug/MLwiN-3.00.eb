@@ -1,0 +1,23 @@
+easyblock = 'Tarball'
+
+#name = 'mlnscript'
+name = 'MLwiN'
+version = '3.00'
+
+homepage = 'http://www.bristol.ac.uk/cmm/software/mlwin/'
+description = 'MLwiN: A software package for fitting multilevel models.'
+
+toolchain = {'name':'dummy', 'version':''}
+
+# Registration / license required.
+# Download the RPM for SL, extract it and create a tarball.
+sources = ['mlnscript-3.00.tar.gz']
+
+#group = 'beheer'
+
+sanity_check_paths = {
+    'files': ['bin/mlnscript'],
+    'dirs': [],
+}
+
+moduleclass = 'math'
