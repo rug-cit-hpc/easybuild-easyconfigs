@@ -39,4 +39,5 @@ modtclfooter = '''if {[info exists env(SCRATCHDIR)]} {
 }
 
 setenv	DIRAC_MPI_COMMAND	"srun"
+setenv	I_MPI_PMI_LIBRARY	"/usr/lib64/libpmix.so"
 '''
