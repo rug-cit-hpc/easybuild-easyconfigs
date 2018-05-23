@@ -1,0 +1,27 @@
+easyblock = 'MakeCp'
+
+name = 'Structure'
+version = '2.3.4'
+
+homepage = 'http://pritchardlab.stanford.edu/structure.html'
+description = """
+The program structure is a free software package for using multi-locus genotype data 
+to investigate population structure.
+"""
+
+toolchain = {'name': 'foss', 'version': '2018a'}
+
+source_urls = [('http://pritchardlab.stanford.edu/structure_software/release_versions/v%(version)s')]
+sources = ['structure_kernel_source.tar.gz']
+checksums = ['f2b72b9189a514f53e921bbdc1aa3dbaca7ac34a8467af1f972c7e4fc9c0bb37']
+
+files_to_copy = [
+ (['structure'], 'bin'),
+]
+
+sanity_check_paths = {
+    'files': ['bin/structure'],
+    'dirs': [],
+}
+
+moduleclass = 'bio'
