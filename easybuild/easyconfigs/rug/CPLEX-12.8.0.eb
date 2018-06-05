@@ -1,0 +1,29 @@
+name = 'CPLEX'
+version = '12.8.0'
+
+homepage = 'http://www-01.ibm.com/software/integration/optimization/cplex-optimizer/'
+description = """IBM ILOG CPLEX Optimizer's mathematical programming technology enables
+ analytical decision support for improving efficiency,
+ reducing costs, and increasing profitability."""
+
+toolchain = {'name': 'dummy', 'version': 'dummy'}
+
+sources = ['cplex_studio128.linux-x86-64.bin']
+
+moduleclass = 'math'
+
+modextrapaths = {
+'PATH':'opl/bin/x86-64_linux/',
+'CLASSPATH':'cplex/lib',
+'CPATH':['cplex/include','opl/include'],
+'LIBRARY_PATH':['cplex/lib/x86-64_linux/static_pic/','opl/lib/x86-64_linux/static_pic']
+}
+
+modtclfooter="""
+set group [exec /usr/bin/id -Gn]
+set grouplist [split $group]
+if {[lsearch $grouplist pg-cplex]<0} {
+   puts stderr {CPLEX can only be used by members of the pg-cplex group}
+   puts stderr {You are not in this group, contact the CIT if you want to be added}
+}
+"""
