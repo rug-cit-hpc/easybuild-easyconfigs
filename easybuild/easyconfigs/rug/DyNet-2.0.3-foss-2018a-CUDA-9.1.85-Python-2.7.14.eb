@@ -1,0 +1,63 @@
+easyblock = 'CMakeMake'
+
+name = 'DyNet'
+version = '2.0.3'
+versionsuffix = '-Python-%(pyver)s'
+cudaversion = '9.1.85'
+versionsuffix = '-CUDA-%s-Python-%%(pyver)s' % cudaversion
+
+homepage = 'http://dynet.readthedocs.io/en/latest/index.html'
+description = " The Dynamic Neural Network Toolkit"
+
+toolchain = {'name': 'foss', 'version': '2018a'}
+toolchainopts = {'pic': True}
+
+source_urls = ['https://github.com/clab/dynet/archive/']
+sources = ['%(version)s.tar.gz']
+
+checksums = ['b375cc79fb0c990ff00c9c73992c5579f0246c74742f58a1b8e8c88aeac325ae']
+
+builddependencies = [('CMake', '3.10.2')]
+
+dependencies = [
+    ('Python', '2.7.14'),
+    ('cuDNN', '7.0.5', '-CUDA-' + cudaversion, True),
+#    ('Eigen', '3.3.4', '', True),
+]
+
+#skipsteps = ['install']
+
+preconfigopts = [
+    "cd %(builddir)s && " +
+    "git clone https://github.com/PX4/eigen.git && cd eigen && " +
+    "git checkout 7cf1c0179eb0f5499dfc1bffbd229783a7865fe1 && " +
+    "mkdir -p build && cd build && " +
+    "cmake -DCMAKE_INSTALL_PREFIX=%(builddir)s/eigeninstall .. && " +
+    "make install && mv %(builddir)s/eigeninstall/include/eigen3/* %(builddir)s/eigeninstall/include/ && "
+    "cd %(builddir)s/dynet-2.0.3/ && "
+]
+
+# related issues
+# https://stackoverflow.com/questions/43113508/math-functions-hpp-not-found-when-using-cuda-with-eigen
+# https://github.com/BVLC/caffe/issues/5994
+configopts = '-DEIGEN3_INCLUDE_DIR=%(builddir)s/eigeninstall/include/ -DPYTHON=`which python` '
+configopts += '-DBACKEND=cuda -DCUDNN_ROOT=$EBROOTCUDNN'
+
+preinstallopts = "export PYTHONPATH=%(installdir)s/lib/python%(pyshortver)s/site-packages:$PYTHONPATH && "
+pyinstpath = "%(installdir)s/lib/python%(pyshortver)s/site-packages"
+postinstallcmds = [
+    "mkdir -p %s && " % pyinstpath +
+    "env PYTHONPATH=%s " % pyinstpath +
+    "python ./setup.py build --build-dir=. --skip-build install  --prefix=%(installdir)s"
+]
+
+sanity_check_paths = {
+    'files': [],
+    'dirs': ['lib/python%(pyshortver)s/site-packages/'],
+}
+
+#sanity_check_commands = ["python -c 'import dynet'"]
+
+modextrapaths = {'PYTHONPATH': ['lib/python%(pyshortver)s/site-packages']}
+
+moduleclass = 'devel'

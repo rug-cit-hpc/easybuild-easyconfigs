@@ -1,0 +1,44 @@
+easyblock = 'CMakeMake'
+
+name = 'DyNet'
+version = '2.0.3'
+versionsuffix = '-Python-%(pyver)s'
+
+homepage = 'http://dynet.readthedocs.io/en/latest/index.html'
+description = " The Dynamic Neural Network Toolkit"
+
+toolchain = {'name': 'foss', 'version': '2018a'}
+toolchainopts = {'pic': True}
+
+source_urls = ['https://github.com/clab/dynet/archive/']
+sources = ['%(version)s.tar.gz']
+
+checksums = ['b375cc79fb0c990ff00c9c73992c5579f0246c74742f58a1b8e8c88aeac325ae']
+
+builddependencies = [('CMake', '3.10.2')]
+
+dependencies = [
+    ('Python', '2.7.14'),
+    ('Eigen', '3.3.4', '', True),
+]
+
+configopts = '-DEIGEN3_INCLUDE_DIR=$EBROOTEIGEN/include -DPYTHON=`which python` ' 
+
+preinstallopts = "export PYTHONPATH=%(installdir)s/lib/python%(pyshortver)s/site-packages:$PYTHONPATH && "
+pyinstpath = "%(installdir)s/lib/python%(pyshortver)s/site-packages"
+postinstallcmds = [
+    "mkdir -p %s && " % pyinstpath +
+    "env PYTHONPATH=%s " % pyinstpath +
+    "python ./setup.py build --build-dir=. --skip-build install  --prefix=%(installdir)s"
+]
+
+sanity_check_paths = {
+    'files': [],
+    'dirs': ['lib/python%(pyshortver)s/site-packages/'],
+}
+
+sanity_check_commands = ["python -c 'import dynet'"]
+
+modextrapaths = {'PYTHONPATH': ['lib/python%(pyshortver)s/site-packages']}
+
+moduleclass = 'devel'
