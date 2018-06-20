@@ -1,0 +1,48 @@
+easyblock = 'MakeCp'
+
+name = 'GRASP2K'
+version = '2015.7.27'
+versionsuffix = "-NNNP2000"
+
+homepage = 'https://www-amdis.iaea.org/GRASP2K/'
+description = """This package of programs implements the fully relativistic multiconfiguration Dirac-Hartree-Fock method. 
+    It is designed for large-scale calculations that use dynamic memory allocation. Scalar and MPI versions are available."""
+
+toolchain = {'name': 'foss', 'version': '2018a'}
+
+
+# accept license and download.
+sources = ['grasp.tar.gz']
+patches = [
+    "environment.patch",
+    "rdensity_makefile.patch",
+    "NNNP.patch",
+]
+checksums = [
+    '0958d302de174a3eceb5fbd8b661a57536cd76073a2405e81b4a138f54529114',  # grasp.tar.gz
+    'ded90f78cd7704a37a518d29259958cfadbba24ad2d6c092b916ce7fec343da9',  # environment.patch
+    'ae6b3fefcf376bd888224e31e0b00374b2513f93679c2ae651452739966edbfc',  # rdensity_makefile.patch
+    'c9e0e2e1fc15add50e57a46a06d9d93e62c03c8b1e65887a310805eb6a3552e1',  # NNNP.patch
+]
+
+prebuildopts = ["source ./make-environment_gfortran && cd src && make clean && "]
+
+executables = [
+    "csl", "rangular", "rci", "rcsfexcitation", "rcsfsplit", "rhfs", "ris", "rlevelseV", "rmixextract", "rsave", "rtabhfsiso", "rtabtransE1", "rwfnmchfmcdf",
+    "HF", "rangular_mpi", "rci_mpi", "rcsfgenerate", "rcsfzerofirst",  "rhfsd", "ris_lsj", "rmcdhf", "rmixreduce", "rseqenergy", "rtablevels", "rtransition", "rwfnplot",
+    "hfszeeman", "rbiotransform", "rcsfblock", "rcsfinteract", "rdensity", "rhfsd_mpi", "risosupport", "rmcdhf_mpi", "rnucleus", "rseqhfs", "rtabtrans1", 
+    "rtransition_mpi", "rwfnrotate", "jj2lsj", "rbiotransform_mpi", "rcsfdelete", "rcsfmerge", "readrwf", "rhfs_lsj", "rlevels", "rmixcondens", "rotate", 
+    "rseqtrans", "rtabtrans2", "rwfnestimate", "wfnplot"
+]
+
+bin_ex = ["bin/%s" % x for x in executables]
+
+
+files_to_copy = [(bin_ex, 'bin')]
+
+sanity_check_paths = {
+    'files': [bin_ex],
+    'dirs': []
+}
+
+moduleclass = 'phys'
