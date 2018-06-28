@@ -44,6 +44,10 @@ set license "$root/licenses/network.lic"
 set name [exec /usr/bin/whoami]
 if {[regexp {s[0-9]+} $name]} { set license "$root/licenses/network_student.lic" }
 setenv MLM_LICENSE_FILE $license
+
+if os.getenv("TMPDIR") then
+    setenv("MCR_CACHE_ROOT", os.getenv("TMPDIR"))
+end
 """
 
 moduleclass = 'math'
