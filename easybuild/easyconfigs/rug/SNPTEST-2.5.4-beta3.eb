@@ -1,0 +1,36 @@
+# This file is an EasyBuild reciPY as per https://github.com/hpcugent/easybuild
+# Author: Pablo Escobar Lopez
+# Swiss Institute of Bioinformatics
+# Biozentrum - University of Basel
+
+easyblock = "Tarball"
+
+name = 'SNPTEST'
+version = '2.5.4-beta3'
+
+homepage = 'https://mathgen.stats.ox.ac.uk/genetics_software/snptest/snptest.html' 
+description = """ 
+ SNPTEST is a program for the analysis of single SNP association in genome-wide studies. The tests implemented include:
+ - Binary (case-control) phenotypes, single and multiple quantitative phenotypes
+ - Bayesian and Frequentist tests
+ - Ability to condition upon an arbitrary set of covariates and/or SNPs.
+ -  Various different methods for the dealing with imputed SNPs.
+"""
+
+toolchain = {'name': 'dummy', 'version': 'dummy'}
+
+source_urls = ['http://www.well.ox.ac.uk/~gav/resources/', 'http://www.well.ox.ac.uk/~gav/resources/archive/']
+sources = ['%(namelower)s_v%(version)s_linux_x86_64_dynamic.tgz']
+#sources = ['%(namelower)s_v%(version)s_linux_x86_64_static.tgz']
+
+postinstallcmds = ['cd %(installdir)s && ln -s %(namelower)s_v%(version)s %(namelower)s']
+
+sanity_check_paths = {
+    'files': ['%(namelower)s_v%(version)s'],
+    'dirs': ['doc','example']
+}
+
+#modaliases = {'%(namelower)s': '%(namelower)s_v%(version)s'}
+modextrapaths = {'PATH': ''}
+moduleclass = 'bio'
+
