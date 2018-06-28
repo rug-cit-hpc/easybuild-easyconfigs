@@ -1,0 +1,47 @@
+# This file is an EasyBuild reciPY as per https://github.com/hpcugent/easybuild
+# Author: Pablo Escobar Lopez
+# Swiss Institute of Bioinformatics
+# Biozentrum - University of Basel
+
+easyblock = 'ConfigureMake'
+
+name = 'EPACTS'
+version = '3.2.6'
+
+homepage = 'http://genome.sph.umich.edu/wiki/EPACTS'
+description = """ EPACTS (Efficient and Parallelizable Association Container Toolbox) 
+ is a versatile software pipeline to perform various statistical tests for identifying 
+ genome-wide association from sequence data through a user-friendly interface, both to 
+ scientific analysts and to method developers."""
+
+toolchain = {'name': 'foss', 'version': '2018a'}
+toolchainopts = {'cstd': 'c++11'}
+
+source_urls = ['http://csg.sph.umich.edu/kang/epacts/download/']
+sources = [SOURCE_TAR_GZ]
+
+dependencies = [
+    ('zlib', '1.2.11'),
+    ('R', '3.5.0', '-X11-20180131'),
+    ('Perl', '5.26.1'),
+    ('gnuplot', '5.2.4'),
+    ('Ghostscript', '9.23'),
+    ('groff', '1.22.3'),
+]
+
+configopts = 'CXXFLAGS="-fpermissive $CXXFLAGS"'
+
+sanity_check_paths = {
+    'files': 
+        ['bin/%s' % x for x in ['anno', 'bgzip', 'chaps', 'epacts', 'epacts-anno', 'epacts-cat', 
+                                'epacts-cis-extract', 'epacts-download', 'epacts-enrich', 'epacts-group', 
+                                'epacts-make-group', 'epacts-make-kin', 'epacts-multi', 'epacts-pca-plot', 
+                                'epacts-plot', 'epacts.pm', 'epacts-single', 'epacts-zoom', 'epstopdf', 
+                                'pEmmax', 'tabix', 'test_run_epacts.sh', 'vcfast', 'wGetOptions.pm']], 
+    'dirs': []
+    }
+
+modextrapaths = {'R_LIBS': 'lib'}
+
+moduleclass = 'bio'
+
