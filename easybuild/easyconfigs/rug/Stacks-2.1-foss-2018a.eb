@@ -12,7 +12,7 @@ description = """Stacks is a software pipeline for building loci from short-read
 toolchain = {'name': 'foss', 'version': '2018a'}
 source_urls = ['http://catchenlab.life.illinois.edu/stacks/source/']
 sources = [SOURCELOWER_TAR_GZ]
-checksums = ['a721b7367a9a342163e8d848d34616419a8c32e4be5ababfaa4f5d7c02d8cfa1']
+checksums = ['d66278a562892a915afe99268827e1e068f0954085f30ade5d4aeb6315b7e2a2']
 
 dependencies = [
     ('zlib', '1.2.11'),
