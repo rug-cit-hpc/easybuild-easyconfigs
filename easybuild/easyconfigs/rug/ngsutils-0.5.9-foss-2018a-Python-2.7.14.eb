@@ -1,0 +1,33 @@
+easyblock = 'ConfigureMake'
+
+name = 'ngsutils'
+version = '0.5.9'
+versionsuffix = '-Python-%(pyver)s'
+
+homepage = 'http://ngsutils.org/'
+description = "Tools for next-generation sequencing analysis"
+
+toolchain = {'name': 'foss', 'version': '2018a'}
+
+source_urls = ['https://github.com/ngsutils/ngsutils/archive/']
+sources = [SOURCE_TAR_GZ]
+checksums = ['37587921459e91ad0dbaebc70bea04e9837464214a8c12e08c5db0a1e7078440']
+
+buildininstalldir = True
+
+unpack_options = '--strip-components=1'
+
+skipsteps = ['configure', 'install']
+
+builddependencies = [('CMake', '3.10.2')]
+
+dependencies = [
+    ('Python', '2.7.14'),
+]
+
+sanity_check_paths = {
+    'files': ['bin/ngsutils'],
+    'dirs': ['ngsutils', 'support', 'venv'],
+}
+
+moduleclass = 'bio'
