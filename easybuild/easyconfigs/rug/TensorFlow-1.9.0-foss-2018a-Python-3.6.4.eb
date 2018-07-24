@@ -1,5 +1,6 @@
 name = 'TensorFlow'
 version = '1.9.0'
+versionsuffix = '-Python-%(pyver)s'
 
 homepage = 'https://www.tensorflow.org/'
 description = "An open-source software library for Machine Intelligence"
