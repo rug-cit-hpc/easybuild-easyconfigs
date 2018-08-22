@@ -14,17 +14,18 @@ sources = ['%(namelower)s-%(version)s.tar.bz2']
 
 dependencies = [
     ('Python', '3.6.4'),
-    ('BLAST+', '2.6.0', versionsuffix),
+    ('BLAST+', '2.7.1'),
     ('HMMER', '3.1b2'),
-    ('AUGUSTUS', '3.2.3', versionsuffix),
+    ('AUGUSTUS', '3.3.1'),
     ('EMBOSS', '6.6.0'),
 ]
 
+# What should be installed?
 sanity_check_paths = {
-    'files': ['BUSCO.py', 'BUSCO_plot.py'],
-    'dirs': ['sample_data'],
+    'files': ['scripts/generate_plot.py', 'scripts/run_BUSCO.py'], #BuscoAnalysis.py', 'GeneSetAnalysis.py', 'GenomeAnalysis.py', 'TranscriptomeAnalysis.py'],
+    'dirs': ['lib/python%(pyshortver)s/site-packages'],
 }
 
-modextrapaths = {'PATH': '.'}
+modextrapaths = {'PATH': 'lib/python%(pyshortver)s/site-packages/busco/'}
 
 moduleclass = 'bio'
