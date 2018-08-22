@@ -14,11 +14,12 @@ patches = [
     '%(name)s-%(version)s_bamtools_includepath.patch',
     '%(name)s-%(version)s_no_symlinks_install.patch',
 ]
-checksums = [
-    'e0249bff0345f6a790b5c56432f292040254457da22f1a2c212f42d7d2104087',  # augustus-3.3.1.tar.gz
-    'cc48206918ca6fb75b55d3cd2870d6a139ba1ae10ea77e8c0d68eedd26142ddf',  # AUGUSTUS-3.3.1_bamtools_includepath.patch
-    'afaa0136d8a0d7d060a5597384b88267e17c9b3cc9b60b0faebc6eff03f7bce1',  # AUGUSTUS-3.3.1_no_symlinks_install.patch
-]
+
+#checksums = [
+#    'e0249bff0345f6a790b5c56432f292040254457da22f1a2c212f42d7d2104087',  # augustus-3.3.1.tar.gz
+#    'cc48206918ca6fb75b55d3cd2870d6a139ba1ae10ea77e8c0d68eedd26142ddf',  # AUGUSTUS-3.3.1_bamtools_includepath.patch
+#    'afaa0136d8a0d7d060a5597384b88267e17c9b3cc9b60b0faebc6eff03f7bce1',  # AUGUSTUS-3.3.1_no_symlinks_install.patch
+#]
 
 dependencies = [
     ('zlib', '1.2.11'),
@@ -27,7 +28,9 @@ dependencies = [
     ('lpsolve', '5.5.2.5'),
     ('SuiteSparse', '5.1.2', '-METIS-5.1.0'),
     ('BamTools', '2.5.1'),
+    ('SAMtools', '1.7'),
     ('SQLite', '3.21.0'),
+    ('HTSlib', '1.8'),
 ]
 
 skipsteps = ['configure']
