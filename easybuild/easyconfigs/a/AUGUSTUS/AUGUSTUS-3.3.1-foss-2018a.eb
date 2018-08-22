@@ -1,7 +1,7 @@
 easyblock = 'ConfigureMake'
 
 name = 'AUGUSTUS'
-version = '3.3'
+version = '3.3.1'
 
 homepage = 'http://bioinf.uni-greifswald.de/augustus/'
 description = "AUGUSTUS is a program that predicts genes in eukaryotic genomic sequences"

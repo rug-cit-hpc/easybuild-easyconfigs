@@ -1,0 +1,30 @@
+easyblock = 'Tarball'
+
+name = 'BUSCO'
+version = '3.0.2'
+versionsuffix = '-Python-%(pyver)s'
+
+homepage = 'http://busco.ezlab.org/'
+description = "BUSCO: assessing genome assembly and annotation completeness with single-copy orthologs"
+
+toolchain = {'name': 'foss', 'version': '2018a'}
+
+source_urls = ['https://gitlab.com/ezlab/%(namelower)s/-/archive/%(version)s/']
+sources = ['%(namelower)s-%(version)s.tar.bz2']
+
+dependencies = [
+    ('Python', '3.6.4'),
+    ('BLAST+', '2.6.0', versionsuffix),
+    ('HMMER', '3.1b2'),
+    ('AUGUSTUS', '3.2.3', versionsuffix),
+    ('EMBOSS', '6.6.0'),
+]
+
+sanity_check_paths = {
+    'files': ['BUSCO.py', 'BUSCO_plot.py'],
+    'dirs': ['sample_data'],
+}
+
+modextrapaths = {'PATH': '.'}
+
+moduleclass = 'bio'
