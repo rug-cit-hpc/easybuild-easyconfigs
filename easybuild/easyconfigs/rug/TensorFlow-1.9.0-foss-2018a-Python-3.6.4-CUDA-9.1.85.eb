@@ -15,21 +15,20 @@ patches = [
     'TensorFlow-1.5.0_swig-env.patch',
     'TensorFlow-1.6.0_dont_expand_cuda_cudnn_path.patch',
     'TensorFlow-1.8.0_remove-msse-hardcoding.patch',
-    'TensorFlow-1.6.0_lrt-flag.patch',
-    'TensorFlow-1.6.0_use_64b_alignment.patch',
 ]
+#    'TensorFlow-1.8.0_lrt-flag.patch',
+
 checksums = [
     'ffc3151b06823d57b4a408261ba8efe53601563dfe93af0866751d4f6ca5068c',  # v1.9.0.tar.gz
     '53807290f1acb6a0f2a84f1a0ad9f917ee131c304b3e08679f3cbd335b22c7ef',  # TensorFlow-1.5.0_swig-env.patch
     # TensorFlow-1.6.0_dont_expand_cuda_cudnn_path.patch
     'f490b35179ed5c864255950784d5677d02f6c83a1684d406dbd31e2607d342fa',
     '4d043bba84d19aa38e402ef4ddaa89df936ae792f82693a49ce8ae4a1d091f6d',  # TensorFlow-1.8.0_remove-msse-hardcoding.patch
-    'd8b262eea9ff94c94c90b8c51219d8f56085ccee4370525cce8beba3b2b91d38',  # TensorFlow-1.6.0_lrt-flag.patch
-    'bcff66b5cc7a98e2ae894df6940aac5e3dcec3700773d24a6c3a5a69128ef66f',  # TensorFlow-1.6.0_use_64b_alignment.patch
 ]
+#    '3c499788266800c71fa9874d411df79f7331320b3a86bc7c79c74763ae04c143',  # TensorFlow-1.8.0_lrt-flag.patch
 
 builddependencies = [
-    ('Bazel', '0.11.1'),
+    ('Bazel', '0.11.0'),
     ('wheel', '0.30.0', '-Python-%(pyver)s'),
 ]
 dependencies = [
@@ -37,7 +36,7 @@ dependencies = [
     ('cuDNN', '7.0.5', '-CUDA-%s' % cuda_ver, True),
 ]
 
-#cuda_compute_capabilities = ['3.0', '3.2', '3.5', '3.7', '5.0', '5.2', '5.3', '6.0', '6.1', '7.0']
 cuda_compute_capabilities = ['3.5', '6.1', '7.0']
+with_mkl_dnn = False
 
 moduleclass = 'lib'
