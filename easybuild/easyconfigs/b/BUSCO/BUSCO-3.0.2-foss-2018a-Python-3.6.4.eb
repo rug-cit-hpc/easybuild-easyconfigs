@@ -1,4 +1,4 @@
-easyblock = 'Tarball'
+easyblock = 'PythonPackage'
 
 name = 'BUSCO'
 version = '3.0.2'
@@ -22,7 +22,7 @@ dependencies = [
 
 # What should be installed?
 sanity_check_paths = {
-    'files': ['scripts/generate_plot.py', 'scripts/run_BUSCO.py'], #BuscoAnalysis.py', 'GeneSetAnalysis.py', 'GenomeAnalysis.py', 'TranscriptomeAnalysis.py'],
+    'files': [], #'scripts/generate_plot.py', 'scripts/run_BUSCO.py'], #BuscoAnalysis.py', 'GeneSetAnalysis.py', 'GenomeAnalysis.py', 'TranscriptomeAnalysis.py'],
     'dirs': ['lib/python%(pyshortver)s/site-packages'],
 }
 
