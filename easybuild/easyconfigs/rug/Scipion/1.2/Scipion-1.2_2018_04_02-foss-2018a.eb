@@ -10,8 +10,9 @@ description = """Scipion is an image processing framework to obtain 3D models of
 toolchain = {'name': 'foss', 'version': '2018a'}
 
 # download via http://scipion.cnb.csic.es/m/download_form/
-source_urls = ['http://scipion.cnb.csic.es/m/static/install/']
-sources = ['%(namelower)s_v%(version)s_source.tgz']
+#source_urls = ['http://scipion.cnb.csic.es/m/static/install/']
+source_urls = ['https://github.com/I2PC/scipion/releases/download/v1.2/']
+sources = ['%(namelower)s_v%(version)s_source.tgz.Sources.tgz']
 
 patches = [('hosts.conf', 'config'), ('scipion.conf', 'config'), ('protocols.conf', 'config')]
 
@@ -21,16 +22,24 @@ dependencies = [
     ('GSL', '2.4'),
 #    ('Java', '1.8.0_74', '', ('dummy', 'dummy'))
     ('LibTIFF', '4.0.9'),
+#    ('fontconfig', '2.12.6'),
+#    ('CUDA', '9.1.85', '', True),
+('libpng', '1.6.34'),
 ]
 
 builddependencies = [
     ('CMake', '3.11.1'),
-#    ('Python', '2.7.11'),
+#    ('Python', '2.7.14'),
 ]
 
 postinstallcmds = [
+    'wget -O %(installdir)s/software/tmp/tcl8.6.7-src.tgz https://prdownloads.sourceforge.net/tcl/tcl8.6.7-src.tar.gz',
+    'wget -O %(installdir)s/software/tmp/tk8.6.7-src.tgz https://prdownloads.sourceforge.net/tcl/tk8.6.7-src.tar.gz',
+    'sed -i "s/8.6.1/8.6.7/g" %(installdir)s/install/script.py',
+
     '%(installdir)s/scipion config',
-    '%(installdir)s/scipion install -j 2',
+    '%(installdir)s/scipion install -j 2 --no-opencv',
+    #'%(installdir)s/scipion install -j 2',
     '%(installdir)s/scipion install chimera --no-xmipp',
     '%(installdir)s/scipion install ctffind4 --no-xmipp',
     '%(installdir)s/scipion install eman-2.12 --no-xmipp',
