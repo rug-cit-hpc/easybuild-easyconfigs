@@ -1,0 +1,33 @@
+easyblock = 'Tarball'
+
+name = 'MaxQuant'
+version = '1.6.3.3'
+
+homepage = 'http://www.coxdocs.org/doku.php?id=maxquant:start'
+description = """MaxQuant is a proteomics software package designed for analyzing large mass-spectrometric data sets.
+It is specifically aimed at high-resolution MS data.
+Several labeling techniques as well as label-free quantification are supported."""
+
+toolchain = {'name': 'dummy', 'version': 'dummy'}
+
+sources = ['%(name)s_%(version)s.zip']
+checksums = ['530ae250dd7e215f42ce444ad45d984b89c475aafbee809ca1a536c1470fc49a']
+
+dependencies = [
+    ('Mono', '5.16.0.179', '', ('foss', '2018a'))
+]
+
+postinstallcmds = [
+    "mkdir %(installdir)s/scripts",
+    "find %(installdir)s -name '*.exe' -exec sh -c 'echo -e \"#!/bin/bash\nmono $@ \\\"\$@\\\"\" > %(installdir)s/scripts/$(basename \"${@%%.exe}\")' _ {} \;",
+    "chmod +x %(installdir)s/scripts/*",
+]
+
+sanity_check_paths = {
+    'files': ['MaxQuant.exe', 'bin/MaxQuantCmd.exe'],
+    'dirs': ['bin', 'scripts'],
+}
+
+modextrapaths = {'PATH': 'scripts'}
+
+moduleclass = 'bio'
