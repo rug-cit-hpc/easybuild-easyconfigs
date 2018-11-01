@@ -9,6 +9,7 @@ toolchain = {'name': 'foss', 'version': '2018a'}
 
 source_urls = ['http://download.mono-project.com/sources/mono/']
 sources = [SOURCELOWER_TAR_BZ2]
+checksums = ['93839af2ef0b8796935d8c1efd4cc693bc294bb2beb657b9edb6b4764f01e12b']
 
 builddependencies = [
     ('Autotools', '20170619'),
