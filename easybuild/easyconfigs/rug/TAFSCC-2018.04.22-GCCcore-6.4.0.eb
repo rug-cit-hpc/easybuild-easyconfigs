@@ -1,0 +1,32 @@
+easyblock = 'MakeCp'
+
+name = 'TAFSCC'
+version = '2018.04.22'
+
+homepage = ''
+description = """Tel Aviv Relativistic Atomic Fock-Space Coupled Cluster code to calculate Breit contribution.
+ Written by E. Eliav, U. Kaldor, and Y. Ishikawa (1990-2016), with contributions by A. Landau, and A. Borschevsky."""
+
+toolchain = {'name': 'GCCcore', 'version': '6.4.0'}
+
+# source was obtained from Hallo Aberly 
+source_urls = ['']
+sources = ['%(name)s.tar.gz']
+checksums = ['19be1f8cd3431c48b2c1dc2442f9d04fdf04268e85fefe0cad14b7d9f5c251e5']
+
+files = [
+    'chpqselt.x', 'chp.x', 'chq.x', 'chuselt.x', 'chu.x', 
+    'chvselt.x', 'chv.x', 'csdselt.x', 'csd.x', 'csuselt.x', 
+    'csu.x', 'csvselt.x', 'csv.x', 'dfb_new.x', 'dfb.x',
+]
+
+files_to_copy = [
+    (files, 'bin')
+]
+
+sanity_check_paths = {
+    'files': [ 'bin/' + file for file in files ],
+    'dirs': [],
+}
+
+moduleclass = 'bio'
