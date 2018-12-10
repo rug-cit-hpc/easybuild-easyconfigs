@@ -1,0 +1,44 @@
+easyblock = 'CMakeMake'
+
+name = 'Dakota'
+version = '6.9'
+
+homepage = 'https://dakota.sandia.gov'
+description = """The Dakota project delivers both state-of-the-art research and robust, usable software for
+optimization and UQ. Broadly, the Dakota software's advanced parametric analyses enable design exploration,
+model calibration, risk analysis, and quantification of margins and uncertainty with computational models.
+The Dakota toolkit provides a flexible, extensible interface between such simulation codes and its iterative
+systems analysis methods."""
+
+toolchain = {'name': 'foss', 'version': '2018a'}
+
+source_urls = ['https://dakota.sandia.gov/sites/default/files/distributions/public/']
+sources =  ['dakota-%(version)s-release-public.src.tar.gz']
+checksums = ['989b689278964b96496e3058b8ef5c2724d74bcd232f898fe450c51eba7fe0c2']
+
+builddependencies = [
+    ('CMake' ,'3.11.1'),
+#    ('CMake' ,'3.11.1', '', ('GCCcore','6.4.0')),
+]
+
+dependencies = [
+    ('Perl'  ,'5.26.1'),
+    ('GSL'   ,'2.4'),
+    ('Boost' ,'1.66.0'),
+    ('Python','3.6.4'),
+#    ('Python','2.7.14'),
+]
+
+separate_build_dir = True
+
+preconfigopts = 'sed -i "1s/^/#include <math.h> /" '
+preconfigopts += '../%(namelower)s-%(version)s*.src/packages/external/JEGA/Utilities/src/DiscreteDesignVariableNature.cpp && '
+
+configopts = '-DCMAKE_EXE_LINKER_FLAGS="-L${EBROOTBOOST}/lib" -DCMAKE_SHARED_LINKER_FLAGS="-L${EBROOTBOOST}/lib"'
+configopts += ' -DBLAS_LIBS=$EBROOTOPENBLAS/lib/libopenblas.so -DLAPACK_LIBS=$EBROOTOPENBLAS/lib/libopenblas.so'
+configopts += ' -DDAKOTA_HAVE_MPI=TRUE -DMPI_CXX_COMPILER=mpicxx'
+configopts += ' -DBoost_NO_BOOST_CMAKE=TRUE -DBoost_NO_SYSTEM_PATHS=TRUE'
+
+postinstallcmds = ["sed -i 's@/usr/bin/perl@/usr/bin/env perl@' %(installdir)s/bin/dprepro.perl"]
+
+moduleclass = 'math'
