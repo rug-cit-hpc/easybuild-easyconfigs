@@ -1,0 +1,11 @@
+--- dakota-6.9.0.src/packages/external/JEGA/Utilities/src/DiscreteDesignVariableNature.cpp.orig	2018-11-13 21:03:54.000000000 +0100
++++ dakota-6.9.0.src/packages/external/JEGA/Utilities/src/DiscreteDesignVariableNature.cpp	2018-12-17 14:07:31.810975007 +0100
+@@ -58,7 +58,7 @@
+ */
+ // JEGAConfig.hpp should be the first include in all JEGA files.
+ #include <../Utilities/include/JEGAConfig.hpp>
+-
++#include <math.h>
+ #include <cfloat>
+ #include <limits>
+ #include <algorithm>
